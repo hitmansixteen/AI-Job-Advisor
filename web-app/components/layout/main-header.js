@@ -50,14 +50,14 @@ export default function Header() {
                                     text="All Jobs" 
                                     bgColor="bg-purple-600" 
                                     hoverColor="hover:bg-purple-700" 
-                                    onClick={() => router.push("/user/profile")} 
+                                    onClick={() => router.push("/job/allJobs")} 
                                 />
 
                                 <Button 
                                     text="Recommended Jobs" 
                                     bgColor="bg-yellow-600" 
                                     hoverColor="hover:bg-purple-700" 
-                                    onClick={() => router.push("/user/profile")} 
+                                    onClick={() => router.push("/job/recommendedJobs")} 
                                 />
 
                                 <Button 
