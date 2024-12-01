@@ -1,77 +1,59 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/router";
+import LoginCard from "@/components/login/Logincard";
+import styles from "./Loginpage.module.css";
+import { useSession } from "next-auth/react";
 
 const LoginPage = () => {
-  // Use useRef to reference input fields
-  const emailRef = useRef();
-  const passwordRef = useRef();
+    const { data: session, status } = useSession(); // Get session info
+    const router = useRouter(); // For client-side navigation
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    const emailRef = useRef();
+    const passwordRef = useRef();
+    const [error, setError] = useState("");
 
-    // Get values from refs
-    const email = emailRef.current.value;
-    const password = passwordRef.current.value;
+    // Redirect if the user is authenticated
+    useEffect(() => {
+        if (status === "authenticated") {
+            router.push("/user/profile"); // Redirect to user profile
+        }
+    }, [status, router]);
 
-    const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: true, // Automatically redirect on success
-        callbackUrl: "/user/profile", // Specify redirect URL on successful login
-    });
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
-    if (result?.error) {
-        setError(result.error); // Display error if login fails
+        const email = emailRef.current.value;
+        const password = passwordRef.current.value;
+
+        const result = await signIn("credentials", {
+            email,
+            password,
+            redirect: true,
+            callbackUrl: "/user/profile",
+        });
+
+        if (result?.error) {
+            setError(result.error);
+        }
+    };
+
+    // Show a loading spinner or empty state while checking session status
+    if (status === "loading") {
+        return <div className={styles.pageContainer}>Loading...</div>;
     }
-  };
 
-  return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white shadow-md rounded-lg w-96 p-8">
-        <h2 className="text-2xl font-semibold text-center mb-6">Login</h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Email:
-            </label>
-            <input
-              ref={emailRef}
-              type="email"
-              id="email"
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your email"
-              required
+    // Render the login card if the user is not authenticated
+    return (
+        <div className={styles.pageContainer}>
+            <LoginCard
+                emailRef={emailRef}
+                passwordRef={passwordRef}
+                handleSubmit={handleSubmit}
+                error={error}
             />
-          </div>
-          <div className="mb-6">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 font-medium mb-2"
-            >
-              Password:
-            </label>
-            <input
-              ref={passwordRef}
-              type="password"
-              id="password"
-              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+        </div>
+    );
 };
 
 export default LoginPage;

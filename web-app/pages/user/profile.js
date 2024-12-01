@@ -16,6 +16,7 @@ export default function UserProfile() {
     if (status === "loading") {
         return <div>Loading...</div>;
     }
+    console.log(session);
 
     // Render the user profile if the user is authenticated
     return (
