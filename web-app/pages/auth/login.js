@@ -13,10 +13,10 @@ const LoginPage = () => {
     const passwordRef = useRef();
     const [error, setError] = useState("");
 
-    // Redirect if the user is authenticated
+   
     useEffect(() => {
         if (status === "authenticated") {
-            router.push("/user/profile"); // Redirect to user profile
+            router.push("/user/profile"); 
         }
     }, [status, router]);
 
@@ -30,7 +30,7 @@ const LoginPage = () => {
             email,
             password,
             redirect: true,
-            callbackUrl: "/user/profile",
+            callbackUrl: "/job/allJobs",
         });
 
         if (result?.error) {
