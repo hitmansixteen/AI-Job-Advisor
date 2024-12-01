@@ -77,12 +77,14 @@ const Userprofile = () => {
         <div className={styles.profileContainer}>
             <div className={styles.profileHeader}>
                 <h1 className={styles.profileTitle}>{user.name}'s Profile</h1>
+
                 <button
                     onClick={() => setIsEditing(!isEditing)}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
                 >
                     {isEditing ? "Cancel Edit" : "Edit Profile"}
                 </button>
+
             </div>
 
             <form onSubmit={handleSubmit} className={styles.profileForm}>
