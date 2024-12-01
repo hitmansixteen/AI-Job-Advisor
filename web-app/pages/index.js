@@ -10,9 +10,6 @@ const LandingPage = () => {
         <div className="text-center">
           <h2 className="text-4xl font-semibold mb-4">Find Your Dream Job</h2>
           <p className="text-xl mb-8">Our AI-powered job advisor helps you discover the best job opportunities based on your skills, experience, and preferences.</p>
-          <button className="px-8 py-3 bg-yellow-500 hover:bg-yellow-600 text-blue-900 font-semibold rounded-lg">
-            Get Started
-          </button>
         </div>
       </main>
 
