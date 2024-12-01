@@ -18,5 +18,6 @@ export default function UserProfile() {
     }
     console.log(session);
 
+
     return <Userprofile />;
 }

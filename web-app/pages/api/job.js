@@ -6,7 +6,7 @@ export default async function handler(req, res) {
 
     if (req.method === "GET") {
         try {
-            const jobs = await Job.find(); // Fetch all jobs
+            const jobs = await Job.find(); 
             return res.status(200).json(jobs);
         } catch (err) {
             return res.status(500).json({ message: err.message });
