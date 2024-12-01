@@ -1,9 +1,12 @@
-import { useState } from "react";
-import SignupSteps from "@/components/SignupSteps";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import SignupSteps from "@/components/signup/SignupSteps";
 
 export default function Signup() {
+    const { data: session, status } = useSession(); // Access session and authentication status
     const router = useRouter();
+
     const [currentStep, setCurrentStep] = useState(0);
     const [formData, setFormData] = useState({
         name: "",
@@ -41,6 +44,19 @@ export default function Signup() {
         }
     };
 
+    useEffect(() => {
+        
+        if (status === "authenticated") {
+            router.push("/user/profile"); 
+        }
+    }, [status, router]);
+
+    
+    if (status === "loading") {
+        return <div>Loading...</div>;
+    }
+
+    
     return (
         <SignupSteps
             step={currentStep}
