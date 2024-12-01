@@ -1,6 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import Userprofile from "@/components/user/Profile";
 
 export default function UserProfile() {
     const { data: session, status } = useSession();
@@ -12,17 +13,11 @@ export default function UserProfile() {
         }
     }, [status, router]);
 
-    // Show a loading state while session is being checked
     if (status === "loading") {
         return <div>Loading...</div>;
     }
     console.log(session);
 
-    // Render the user profile if the user is authenticated
-    return (
-        <div>
-            <h1>User Profile</h1>
-            <p>Welcome, {session?.user?.email || "User"}!</p>
-        </div>
-    );
+
+    return <Userprofile />;
 }
