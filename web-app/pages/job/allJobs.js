@@ -9,7 +9,7 @@ const AllJobs = ({ jobs }) => {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  useEffect(() => {
+  useEffect(() => {npm 
 
     if (status === "unauthenticated") {
       router.push("/");
