@@ -64,7 +64,7 @@ export default function Header() {
                                     text="Generate CV" 
                                     bgColor="bg-orange-600" 
                                     hoverColor="hover:bg-red-700" 
-                                    onClick={() => router.push("/user/profile")} 
+                                    onClick={() => router.push("/job/generateCv")} 
                                 />
 
                                 <Button 
