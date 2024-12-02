@@ -14,7 +14,7 @@ export default function Header() {
                 {!session ? ( 
                     <Link href='/'>AI Job Advisor</Link>
                 ) : ( 
-                    <Link href='/user/profile'>AI Job Advisor</Link>
+                    <Link href='/job/allJobs'>AI Job Advisor</Link>
                 )}
             </div>
             <nav className={styles.navigation}>

@@ -19,5 +19,17 @@ export default function UserProfile() {
     console.log(session);
 
 
-    return <Userprofile />;
+    return (
+        <div>
+            <Userprofile />
+            <div className="flex justify-between items-center mb-4">
+                <button
+                    onClick={() => router.push("/user/chngpasspage")}
+                    className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg"
+                >
+                    Change Password
+                </button>
+            </div>
+        </div> 
+    );
 }
