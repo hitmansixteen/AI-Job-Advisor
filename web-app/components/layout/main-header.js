@@ -24,14 +24,14 @@ export default function Header() {
                             <li>
                                 <Button 
                                     text="Signup" 
-                                    bgColor="bg-green-600" 
-                                    hoverColor="hover:bg-green-700" 
+                                    bgColor="bg-green-800" 
+                                    hoverColor="hover:bg-green-900" 
                                     onClick={() => router.push("/auth/signup")} 
                                 />
                                 <Button 
                                     text="Login" 
-                                    bgColor="bg-blue-600" 
-                                    hoverColor="hover:bg-green-700" 
+                                    bgColor="bg-blue-800" 
+                                    hoverColor="hover:bg-green-900" 
                                     onClick={() => router.push("/auth/login")} 
                                 />
                             </li>
@@ -41,35 +41,35 @@ export default function Header() {
                             <li>
                                 <Button 
                                     text="Profile" 
-                                    bgColor="bg-green-600" 
-                                    hoverColor="hover:bg-green-700" 
+                                    bgColor="bg-gray-500" 
+                                    hoverColor="hover:bg-gray-600" 
                                     onClick={() => router.push("/user/profile")} 
                                 />
                                 
                                 <Button 
                                     text="All Jobs" 
-                                    bgColor="bg-purple-600" 
-                                    hoverColor="hover:bg-purple-700" 
+                                    bgColor="bg-gray-500" 
+                                    hoverColor="hover:bg-gray-600" 
                                     onClick={() => router.push("/job/allJobs")} 
                                 />
 
                                 <Button 
                                     text="Recommended Jobs" 
-                                    bgColor="bg-yellow-600" 
-                                    hoverColor="hover:bg-purple-700" 
+                                    bgColor="bg-gray-500" 
+                                    hoverColor="hover:bg-gray-600" 
                                     onClick={() => router.push("/job/recommendedJobs")} 
                                 />
 
                                 <Button 
                                     text="Generate CV" 
-                                    bgColor="bg-orange-600" 
-                                    hoverColor="hover:bg-red-700" 
+                                    bgColor="bg-gray-500" 
+                                    hoverColor="hover:bg-gray-600" 
                                     onClick={() => router.push("/job/generateCv")} 
                                 />
 
                                 <Button 
                                     text="Logout" 
-                                    bgColor="bg-red-600" 
+                                    bgColor="bg-red-800" 
                                     hoverColor="hover:bg-red-700" 
                                     onClick={() => signOut()} 
                                 />

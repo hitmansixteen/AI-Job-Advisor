@@ -3,10 +3,11 @@
 .profileContainer {
     max-width: 900px;
     margin: 0 auto;
+    margin-top: 4px;
     padding: 2rem;
-    background-color: #f4f7fc;
+    background-color: #f9fdfd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 }
 
 .profileHeader {

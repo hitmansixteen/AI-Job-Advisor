@@ -30,15 +30,15 @@ export default function GenerateCv({ user }) {
 
     doc.setFontSize(12);
     doc.text(`Email: ${user.email}`, 10, 30);
-    doc.text(`Preferred Job Location: ${user.preferredJobLocation}`, 10, 40);
+    doc.text(`Preferred Job Location: ${user.preferredJobLocation}`, 10, 37);
 
     // Add Skills
     doc.setFontSize(14);
     doc.text("Skills", 10, 50);
     doc.setFontSize(12);
-    let y = 60;
+    let y = 57;
     user.skills.forEach((skill) => {
-      doc.text(`• ${skill}`, 15, y);
+      doc.text(`• ${skill}`, 13, y);
       y += 7;
     });
 
@@ -47,14 +47,14 @@ export default function GenerateCv({ user }) {
     doc.setFontSize(14);
     doc.text("Experience", 10, y);
     doc.setFontSize(12);
-    doc.text(user.experience, 15, (y += 10));
+    doc.text(user.experience, 15, (y += 8));
 
     // Add Education
     y += 20;
     doc.setFontSize(14);
     doc.text("Education", 10, y);
     doc.setFontSize(12);
-    doc.text(user.education, 15, (y += 10));
+    doc.text(user.education, 13, (y += 8));
 
     // Add Interests
     y += 20;
@@ -62,7 +62,7 @@ export default function GenerateCv({ user }) {
     doc.text("Interests", 10, y);
     doc.setFontSize(12);
     user.interests.forEach((interest) => {
-      doc.text(`• ${interest}`, 15, (y += 7));
+      doc.text(`• ${interest}`, 13, (y += 7));
     });
 
     // Save the PDF

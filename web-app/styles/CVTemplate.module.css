@@ -5,8 +5,13 @@
 }
 
 .heading {
+  font-size: 3rem;
+  /* 3xl */
+  font-weight: bold;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 2rem;
+  color: #1f2937;
+  /* Gray-800 */
 }
 
 .cv {
