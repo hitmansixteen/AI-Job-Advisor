@@ -1,7 +1,10 @@
 import React from "react";
 import styles from "@/styles/JobList.module.css";
+import Button from "./utils/Button";
+import { useSession } from "next-auth/react";
 
 const JobList = ({ jobs }) => {
+  const { data: session, status } = useSession();
   return (
     <div className={styles.grid}>
       {jobs.map((job) => (
@@ -14,9 +17,24 @@ const JobList = ({ jobs }) => {
           <p className={styles.cardSkills}>
             <strong>Required Skills:</strong> {job.requiredSkills.join(", ")}
           </p>
-          <p className={styles.cardRating}>
-            <strong>Rating:</strong> {job.rating} / 5
-          </p>
+          {status === "authenticated" && (
+            <>
+              <Button
+              text="Customize Resume"
+              bgColor="bg-gray-500"
+              hoverColor="hover:bg-gray-600"
+              onClick={() => alert("Application submitted!")}
+              />
+
+              <Button
+                text="Similarity Score"
+                bgColor="bg-gray-500"
+                hoverColor="hover:bg-gray-600"
+                onClick={() => alert("Application submitted!")}
+              />
+            </>
+          )}
+
         </div>
       ))}
     </div>
