@@ -1,0 +1,60 @@
+.container {
+    max-width: 28rem;
+    margin: 2rem auto;
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .message {
+    margin-bottom: 1rem;
+  }
+  
+  .error {
+    color: #f87171; /* Tailwind Red-500 */
+  }
+  
+  .success {
+    color: #34d399; /* Tailwind Green-500 */
+  }
+  
+  .formGroup {
+    margin-bottom: 1rem;
+  }
+  
+  .label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #d1d5db; /* Tailwind Gray-300 */
+    border-radius: 0.5rem;
+  }
+  
+  .button {
+    width: 100%;
+    padding: 0.5rem;
+    background-color: #2563eb; /* Tailwind Blue-600 */
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .button:hover {
+    background-color: #1d4ed8; /* Tailwind Blue-700 */
+  }
+  

@@ -1,0 +1,55 @@
+.container {
+  max-width: 800px;
+  margin: auto;
+  padding: 20px;
+}
+
+.heading {
+  font-size: 3rem;
+  /* 3xl */
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #1f2937;
+  /* Gray-800 */
+}
+
+.cv {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.cv h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.cv section {
+  margin-top: 20px;
+}
+
+.cv ul {
+  list-style-type: disc;
+  padding-left: 20px;
+}
+
+.downloadButton {
+  display: block;
+  margin: 20px auto;
+  padding: 10px 20px;
+  font-size: 16px;
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.downloadButton:hover {
+  background-color: #005bb5;
+}
+
+.loading {
+  text-align: center;
+  font-size: 18px;
+}

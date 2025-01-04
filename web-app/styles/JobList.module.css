@@ -1,0 +1,66 @@
+/* styles/JobList.module.css */
+.grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+}
+
+@media (min-width: 768px) {
+    .grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.card {
+    padding: 1rem;
+    background-color: #ffffff;
+    /* White */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 0.5rem;
+    /* Rounded corners */
+}
+
+.cardTitle {
+    font-size: 1.25rem;
+    /* xl */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: #1f2937;
+    /* Gray-800 */
+}
+
+.cardDescription {
+    color: #4b5563;
+    /* Gray-700 */
+    margin-bottom: 0.5rem;
+}
+
+.cardLocation {
+    color: #374151;
+    /* Gray-600 */
+    font-size: 0.875rem;
+    /* sm */
+    margin-bottom: 0.5rem;
+}
+
+.cardSkills {
+    color: #2563eb;
+    /* Blue-600 */
+    font-size: 0.875rem;
+    /* sm */
+    margin-bottom: 0.5rem;
+}
+
+.cardRating {
+    color: #6b7280;
+    /* Gray-500 */
+    font-size: 0.875rem;
+    /* sm */
+    font-weight: bold;
+}
