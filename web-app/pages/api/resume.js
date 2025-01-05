@@ -29,14 +29,14 @@ export default async function handler(req, res) {
 
       --- Instructions ---
       Analyze the user details and match them with the job description.
-      Generate a tailored resume with the following sections:
+      Generate a tailored resume with the following sections ONLY(Always include the ## before the below mentioned sections only):
       ## Summary
-      ## Work Experience
+      ## Work Experience(Dont use ## for each work experience)
       ## Education
       ## Projects
       ## Skills
 
-      Only provide the above sections in a structured format. Do not include any other information or explanations.
+      ONLY provide the above sections in a structured format. Do not include any other information or explanations.
     `;
 
     try {
@@ -57,6 +57,7 @@ export default async function handler(req, res) {
       llmProcess.on("close", async (code) => {
         if (code === 0) {
           // Parse the output into JSON
+          console.log("Llama output:", llmOutput);
           const jsonResponse = parseResumeOutput(llmOutput);
 
           if (jsonResponse) {
