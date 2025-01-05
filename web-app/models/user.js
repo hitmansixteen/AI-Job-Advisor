@@ -34,6 +34,10 @@ const userSchema = new mongoose.Schema({
         type: [String], // Array of strings to store multiple interests
         required: true,
     },
+    projects: {
+        type: [String], // Array of strings to store multiple project names
+        required: true,
+    },
 }, { timestamps: true }); // Adds createdAt and updatedAt fields
 
 export default mongoose.models.User || mongoose.model("User", userSchema);
