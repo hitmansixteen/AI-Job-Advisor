@@ -64,3 +64,10 @@
     /* sm */
     font-weight: bold;
 }
+
+.form-container label {
+    font-size: 16px;
+    color: #555;
+    margin-bottom: 8px;
+    display: block;
+}
