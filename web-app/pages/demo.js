@@ -33,14 +33,14 @@ export default function Demo() {
       });
 
       if (response.ok) {
-        const blob = await response.blob();
-        const url = window.URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = "resume.pdf";
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
+        const jsonResponse = await response.json(); // Parse JSON response
+        console.log("Tailored Resume JSON:", jsonResponse); // Log JSON response to console
+
+        // Convert JSON object to an array of key-value pairs
+        const jsonArray = Object.entries(jsonResponse);
+
+        // Log the array to verify the conversion
+        console.log("Tailored Resume Array:", jsonArray);
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to generate the resume.");
