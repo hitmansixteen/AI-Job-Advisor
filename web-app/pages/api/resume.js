@@ -1,7 +1,4 @@
 import { spawn } from "child_process";
-import fs from "fs";
-import path from "path";
-import pdf from "html-pdf";
 
 export default async function handler(req, res) {
   if (req.method === "POST") {
@@ -14,7 +11,7 @@ export default async function handler(req, res) {
       Good communication skills are a must.
     `;
 
-    // The system prompt for Ollama
+    // The system prompt for Llama
     const systemPrompt = `
       You are a resume generator AI. Your task is to create a tailored resume
       for a user based on their provided details and a given job description.
@@ -32,21 +29,26 @@ export default async function handler(req, res) {
 
       --- Instructions ---
       Analyze the user details and match them with the job description.
-      Generate a tailored resume emphasizing the user's relevant experiences,
-      skills, and projects with respect to the job description. Use concise and professional language.
-      Format each section clearly (e.g., Work Experience, Education, etc.).
+      Generate a tailored resume with the following sections:
+      ## Summary
+      ## Work Experience
+      ## Education
+      ## Projects
+      ## Skills
+
+      Only provide the above sections in a structured format. Do not include any other information or explanations.
     `;
 
     try {
-      // Spawn the Ollama process
+      // Spawn the Llama process
       const llmProcess = spawn("ollama", ["run", "llama3.1:latest"]);
       let llmOutput = "";
 
-      // Send the prompt to Ollama
+      // Send the prompt to Llama
       llmProcess.stdin.write(systemPrompt);
       llmProcess.stdin.end();
 
-      // Capture the output from Ollama
+      // Capture the output from Llama
       llmProcess.stdout.on("data", (data) => {
         llmOutput += data.toString();
       });
@@ -54,31 +56,46 @@ export default async function handler(req, res) {
       // Handle process closure
       llmProcess.on("close", async (code) => {
         if (code === 0) {
-          // Convert Ollama output to PDF
-          const pdfOptions = { format: "Letter" };
-          const pdfFilePath = path.join(process.cwd(), "resume.pdf");
+          // Parse the output into JSON
+          const jsonResponse = parseResumeOutput(llmOutput);
 
-          pdf.create(llmOutput, pdfOptions).toFile(pdfFilePath, (err, result) => {
-            if (err) {
-              console.error("Error generating PDF:", err);
-              res.status(500).json({ error: "Failed to generate PDF" });
-            } else {
-              // Send the PDF back to the client
-              res.setHeader("Content-Type", "application/pdf");
-              res.setHeader("Content-Disposition", "attachment; filename=resume.pdf");
-              const pdfStream = fs.createReadStream(pdfFilePath);
-              pdfStream.pipe(res);
-            }
-          });
+          if (jsonResponse) {
+            res.status(200).json(jsonResponse);
+          } else {
+            res.status(500).json({ error: "Failed to parse resume sections" });
+          }
         } else {
-          res.status(500).json({ error: "Error generating resume with Ollama" });
+          res.status(500).json({ error: "Error generating resume with Llama" });
         }
       });
     } catch (error) {
-      console.error("Error during Ollama process:", error);
+      console.error("Error during Llama process:", error);
       res.status(500).json({ error: "Internal Server Error" });
     }
   } else {
     res.status(405).json({ error: "Method Not Allowed" });
+  }
+}
+
+// Function to parse Llama output into JSON
+function parseResumeOutput(output) {
+  try {
+    const sections = ["Summary", "Work Experience", "Education", "Projects", "Skills"];
+    const result = {};
+
+    // Loop through sections and extract their content
+    sections.forEach((section) => {
+      const regex = new RegExp(`## ${section}\\n([\\s\\S]*?)(?=##|$)`, "g");
+      const match = regex.exec(output);
+
+      if (match) {
+        result[section.toLowerCase()] = match[1].trim(); // Save section content in JSON
+      }
+    });
+
+    return result;
+  } catch (error) {
+    console.error("Error parsing Llama output:", error);
+    return null;
   }
 }
