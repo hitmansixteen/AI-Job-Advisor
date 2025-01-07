@@ -18,6 +18,8 @@
 }
 
 .card {
+    display: flex;
+    flex-direction: column;
     padding: 1rem;
     background-color: #ffffff;
     /* White */
@@ -70,4 +72,9 @@
     color: #555;
     margin-bottom: 8px;
     display: block;
+}
+
+.buttons {
+    display: flex;
+    margin-top: auto;
 }

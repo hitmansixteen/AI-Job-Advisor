@@ -26,24 +26,28 @@ const JobList = ({ jobs }) => {
           <p className={styles.cardSkills}>
             <strong>Required Skills:</strong> {job.requiredSkills.join(", ")}
           </p>
-          {status === "authenticated" && (
-            <>
-              <Button
-              text="Customize Resume"
-              bgColor="bg-gray-500"
-              hoverColor="hover:bg-gray-600"
-              onClick={() => alert("Application submitted!")}
-              />
-
-              <Button
-                text="Similarity Score"
-                bgColor="bg-gray-500"
+          <div className = {styles.buttons}>
+            {status === "authenticated" && (
+              <>
+                <Button
+                text="Customize Resume"
+                bgColor="bg-buttons"
                 hoverColor="hover:bg-gray-600"
-                onClick={() => similarity_score_clicked(job.description)}
-                disabled={similarityTab}
-              />
-            </>
-          )}
+                sizeY = "2"
+                onClick={() => alert("Application submitted!")}
+                />
+
+                <Button
+                  text="Similarity Score"
+                  bgColor="bg-buttons"
+                  hoverColor="hover:bg-gray-600"
+                  sizeY = "2"
+                  onClick={() => similarity_score_clicked(job.description)}
+                  disabled={similarityTab}
+                />
+              </>
+            )}
+          </div>
         </div>
       ))}
       {similarityTab && (

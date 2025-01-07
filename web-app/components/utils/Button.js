@@ -3,8 +3,8 @@ export default function Button({
     bgColor = "bg-blue-600", 
     hoverColor = "hover:bg-blue-700", 
     textColor = "text-white",
-    sizeY = 2,
-    sizeX = 3,
+    sizeY = 3,
+    sizeX = 4,
     onClick 
 }) {
     return (
