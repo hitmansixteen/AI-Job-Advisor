@@ -42,7 +42,7 @@ const JobList = ({ jobs }) => {
                   bgColor="bg-buttons"
                   hoverColor="hover:bg-gray-600"
                   sizeY = "2"
-                  onClick={() => similarity_score_clicked(job.description)}
+                  onClick={() => similarity_score_clicked(job.description + " Required Skills: " + job.requiredSkills.join(', '))}
                   disabled={similarityTab}
                 />
               </>

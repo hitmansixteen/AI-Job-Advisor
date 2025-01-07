@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from Backend.tfidf import calculate_similarity_using_tfidf
+from Backend.tfidf import calculate_similarity_using_lda_and_tfidf
 from Backend.word2vec import calculate_similarity_using_word2vec
 from PyPDF2 import PdfReader
 from flask_cors import CORS
@@ -28,9 +28,9 @@ def extract_pdf_contents(file_path):
 
 def calculate_similarity(cv_location, job):
     cv = extract_pdf_contents(cv_location)
-    tfidf = calculate_similarity_using_tfidf(cv, job)
+    lda_tfidf = calculate_similarity_using_lda_and_tfidf(cv, job)
     word2vec = calculate_similarity_using_word2vec(cv, job)
-    similarity = 0.6 * tfidf + 0.4 * word2vec
+    similarity = 0.4 * lda_tfidf + 0.6 * word2vec
     return cv, similarity
 
 @app.route('/api/calculate_similarity', methods=['POST'])
@@ -40,13 +40,13 @@ def calculate_similarity_endpoint():
     
     file = request.files['cv_file']
     job = request.form.get('job_description')
+    print (job)
 
     if not file or not job:
         return jsonify({"error": "Both cv_file and job_description are required"}), 400
 
     # Save the uploaded file temporarily
     file_path = os.path.join(app.config['UPLOAD_FOLDER'], file.filename)
-    print(f"Saving file to: {file_path}")  # Debugging the file path
     file.save(file_path)
 
     # Calculate similarity
