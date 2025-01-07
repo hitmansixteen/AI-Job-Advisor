@@ -7,6 +7,7 @@ const SimilarityScore = (props) => {
     const [similarityScore, setSimilarityScore] = useState(null);
     const [error, setError] = useState(null);
 
+    
     const handleFileChange = (e) => {
         setCvFile(e.target.files[0]);
     };
@@ -25,6 +26,7 @@ const SimilarityScore = (props) => {
         const formData = new FormData();
         formData.append('cv_file', cvFile);
         formData.append('job_description', jobDescription);
+
     
         try {
             const response = await fetch('http://127.0.0.1:5000/api/calculate_similarity', {
@@ -34,8 +36,7 @@ const SimilarityScore = (props) => {
     
             // Check if response status is OK
             if (response.ok) {
-                const data = await response.json(); // Parse the JSON response
-                console.log(data.cv);
+                const data = await response.json();
                 setSimilarityScore(data.similarity_score); // Assuming your API returns the similarity score as a key-value pair
             } 
             else {

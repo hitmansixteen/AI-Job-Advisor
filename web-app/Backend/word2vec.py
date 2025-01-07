@@ -1,5 +1,5 @@
 import gensim
-from gensim.models import Word2Vec
+from gensim.models import Word2Vec, KeyedVectors
 import numpy as np
 from sklearn.metrics.pairwise import cosine_similarity
 from nltk.tokenize import word_tokenize
@@ -53,7 +53,7 @@ def calculate_similarity_using_word2vec(cv_data, job_data):
     tokenized_corpus = [cv_tokens, job_tokens]
 
     # Train Word2Vec model on the tokenized corpus
-    model = Word2Vec(sentences=tokenized_corpus, vector_size=1000, window=5, min_count=1, workers=2)
+    model = Word2Vec.load("D:/FYP/Implementation/AI-Job-Advisor/resume ranking/resume_word2vec.model")
 
     # Calculate the similarity using the trained Word2Vec model
     return calculate_similarity(cv_data, job_data, model)
