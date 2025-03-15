@@ -44,8 +44,14 @@ def get_user_profile(email):
 def create_query_from_profile(user_profile):
     """Generate a meaningful query using user profile information."""
     skills = ", ".join(user_profile.get("skills", [])) or "no specific skills"
-    experience = user_profile.get("experience", "no experience mentioned")
-    education = user_profile.get("education", "no education details provided")
+    experience = "; ".join(
+    [f"{exp.get('position', 'Unknown position')} at {exp.get('company', 'Unknown company')}" 
+     for exp in user_profile.get("experience", [])]
+    ) or "No relevant experience mentioned"
+    education = "; ".join(
+    [f"{edu.get('degreeTitle', 'Unknown degree')} from {edu.get('institute', 'Unknown institute')}" 
+     for edu in user_profile.get("education", [])]
+    ) or "No education details provided"
 
     # Construct a natural language query
     query = f"Job for a candidate with skills in {skills}, having experience in {experience}, and education in {education}."
@@ -55,18 +61,23 @@ def refine_with_llama(user_profile, retrieved_jobs):
     """Use Llama 3.1 (via subprocess) to rank and refine job recommendations."""
 
     prompt = f"""
-    Given the following user profile:
+    You are an AI system that ranks job listings based on a given user profile. 
+    Return only a JSON array containing the top 5 ranked jobs, where each job is an object with:
+    - "title": Job title
+    - "description": Job description
+    - "reason": Why this job was recommended (matching skills, experience, etc.)
 
+    Strictly return only the JSON array without any additional text, explanations, or formatting.
+
+    User Profile:
     Skills: {", ".join(user_profile.get("skills", []))}
     Experience: {user_profile.get("experience", "Not mentioned")}
     Education: {user_profile.get("education", "Not mentioned")}
 
-    Rank the following job listings from most to least relevant:
-
+    Job Listings:
     {json.dumps(retrieved_jobs, indent=2)}
-
-    Return only a valid JSON list containing top 5 jobs and their job title, description and the reason to select the job.(no explanations).
     """
+
 
     try:
         # Use subprocess to call Ollama CLI
@@ -80,7 +91,6 @@ def refine_with_llama(user_profile, retrieved_jobs):
 
         # Send prompt to Ollama
         output, error = process.communicate(input=prompt)
-
         if process.returncode == 0:
             # Extract JSON from the response
             match = re.search(r"\[.*\]", output, re.DOTALL)  # Find JSON array in output
@@ -119,6 +129,6 @@ def search_jobs(user_email, top_k=10):
     return json.dumps(refined_jobs)  # Ensure JSON format
 
 if __name__ == "__main__":
-    user_email = "Hashir@gmail.com"
+    user_email = "wajeeh.kniazi@gmail.com"
     results = search_jobs(user_email)
-    print(results)  # Now it prints valid JSON
+    print(results) # Now it prints valid JSON
