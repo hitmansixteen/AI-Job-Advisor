@@ -1,43 +1,19 @@
-import mongoose from "mongoose";
+const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true,
-    },
-    email: {
-        type: String,
-        required: true,
-        unique: true,
-    },
-    password: {
-        type: String,
-        required: true,
-    },
-    skills: {
-        type: [String], // Array of strings to store multiple skills
-        required: true,
-    },
-    experience: {
-        type: String, // Brief description or number of years
-        required: true,
-    },
-    education: {
-        type: String, // Degree and institution
-        required: true,
-    },
-    preferredJobLocation: {
-        type: String, // City, country, or "Remote"
-        required: true,
-    },
-    interests: {
-        type: [String], // Array of strings to store multiple interests
-        required: true,
-    },
-    projects: {
-        type: [String], // Array of strings to store multiple project names
-        required: true,
-    },
-}, { timestamps: true }); // Adds createdAt and updatedAt fields
+  name: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  contact: { type: String, required: true },
+  address: { type: String, required: true },
+  education: [{ degreeTitle: String, institute: String, startDate: Date, endDate: Date }],
+  experience: [{ company: String, position: String, startDate: Date, endDate: Date, details: String }],
+  certifications: [String],
+  publications: [{ title: String, link: String, date: Date }],
+  skills: [String],
+  projects: [{ title: String, description: String, technologies: String }],
+  linkedIn: String,
+  github: String,
+});
 
 export default mongoose.models.User || mongoose.model("User", userSchema);
