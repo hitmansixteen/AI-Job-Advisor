@@ -4,6 +4,13 @@ import jsPDF from "jspdf";
 import styles from "@/styles/CVTemplate.module.css";
 import { useRouter } from "next/router";
 
+// Utility function to format dates
+const formatDate = (dateString) => {
+  if (!dateString) return ""; // Handle empty or invalid dates
+  const date = new Date(dateString);
+  return date.toLocaleString("default", { month: "short", year: "numeric" });
+};
+
 export default function GenerateCv({ user }) {
   const { data: session, status } = useSession();
   const [loading, setLoading] = useState(false);
@@ -23,47 +30,102 @@ export default function GenerateCv({ user }) {
       format: "a4",
     });
 
-    // Adjust content from the CV template
+    // Set font and font size
     doc.setFont("helvetica");
     doc.setFontSize(16);
     doc.text(user.name, 10, 20);
 
     doc.setFontSize(12);
     doc.text(`Email: ${user.email}`, 10, 30);
-    doc.text(`Preferred Job Location: ${user.preferredJobLocation}`, 10, 37);
+    doc.text(`Contact: ${user.contact}`, 10, 37);
+    doc.text(`Address: ${user.address}`, 10, 44);
+    doc.text(`LinkedIn: ${user.linkedIn}`, 10, 51);
+    doc.text(`GitHub: ${user.github}`, 10, 58);
 
-    // Add Skills
-    doc.setFontSize(14);
-    doc.text("Skills", 10, 50);
-    doc.setFontSize(12);
-    let y = 57;
-    user.skills.forEach((skill) => {
-      doc.text(`• ${skill}`, 13, y);
-      y += 7;
-    });
+    let y = 70; // Starting Y position for dynamic content
 
-    // Add Experience
-    y += 10;
-    doc.setFontSize(14);
-    doc.text("Experience", 10, y);
-    doc.setFontSize(12);
-    doc.text(user.experience, 15, (y += 8));
+    // Add Education (if not empty)
+    if (user.education && user.education.length > 0) {
+      doc.setFontSize(14);
+      doc.text("Education", 10, y);
+      doc.setFontSize(12);
+      user.education.forEach((edu) => {
+        y += 7;
+        doc.text(`• ${edu.degreeTitle}`, 13, y);
+        doc.text(`${edu.institute}`, 20, y + 5);
+        doc.text(`${formatDate(edu.startDate)} - ${formatDate(edu.endDate)}`, 20, y + 10);
+        y += 15;
+      });
+    }
 
-    // Add Education
-    y += 20;
-    doc.setFontSize(14);
-    doc.text("Education", 10, y);
-    doc.setFontSize(12);
-    doc.text(user.education, 13, (y += 8));
+    // Add Experience (if not empty)
+    if (user.experience && user.experience.length > 0) {
+      y += 10;
+      doc.setFontSize(14);
+      doc.text("Experience", 10, y);
+      doc.setFontSize(12);
+      user.experience.forEach((exp) => {
+        y += 7;
+        doc.text(`• ${exp.position} at ${exp.company}`, 13, y);
+        doc.text(`${formatDate(exp.startDate)} - ${formatDate(exp.endDate)}`, 20, y + 5);
+        doc.text(`${exp.details}`, 20, y + 10);
+        y += 15;
+      });
+    }
 
-    // Add Interests
-    y += 20;
-    doc.setFontSize(14);
-    doc.text("Interests", 10, y);
-    doc.setFontSize(12);
-    user.interests.forEach((interest) => {
-      doc.text(`• ${interest}`, 13, (y += 7));
-    });
+    // Add Certifications (if not empty)
+    if (user.certifications && user.certifications.length > 0) {
+      y += 10;
+      doc.setFontSize(14);
+      doc.text("Certifications", 10, y);
+      doc.setFontSize(12);
+      user.certifications.forEach((cert) => {
+        y += 7;
+        doc.text(`• ${cert}`, 13, y);
+      });
+    }
+
+    // Add Publications (if not empty)
+    if (user.publications && user.publications.length > 0) {
+      y += 10;
+      doc.setFontSize(14);
+      doc.text("Publications", 10, y);
+      doc.setFontSize(12);
+      user.publications.forEach((pub) => {
+        y += 7;
+        doc.text(`• ${pub.title}`, 13, y);
+        doc.text(`Published on: ${formatDate(pub.date)}`, 20, y + 5);
+        doc.text(`Link: ${pub.link}`, 20, y + 10);
+        y += 15;
+      });
+    }
+
+    // Add Skills (if not empty)
+    if (user.skills && user.skills.length > 0) {
+      y += 10;
+      doc.setFontSize(14);
+      doc.text("Skills", 10, y);
+      doc.setFontSize(12);
+      user.skills.forEach((skill) => {
+        y += 7;
+        doc.text(`• ${skill}`, 13, y);
+      });
+    }
+
+    // Add Projects (if not empty)
+    if (user.projects && user.projects.length > 0) {
+      y += 10;
+      doc.setFontSize(14);
+      doc.text("Projects", 10, y);
+      doc.setFontSize(12);
+      user.projects.forEach((proj) => {
+        y += 7;
+        doc.text(`• ${proj.title}`, 13, y);
+        doc.text(`Description: ${proj.description}`, 20, y + 5);
+        doc.text(`Technologies: ${proj.technologies}`, 20, y + 10);
+        y += 15;
+      });
+    }
 
     // Save the PDF
     doc.save(`${user.name}_CV.pdf`);
@@ -79,35 +141,98 @@ export default function GenerateCv({ user }) {
       <div id="cv" className={styles.cv}>
         <h2>{user.name}</h2>
         <p>Email: {user.email}</p>
-        <p>Preferred Job Location: {user.preferredJobLocation}</p>
+        <p>Contact: {user.contact}</p>
+        <p>Address: {user.address}</p>
+        <p>LinkedIn: {user.linkedIn}</p>
+        <p>GitHub: {user.github}</p>
 
-        <section>
-          <h3>Skills</h3>
-          <ul>
-            {user.skills.map((skill, index) => (
-              <li key={index}>{skill}</li>
-            ))}
-          </ul>
-        </section>
+        {/* Education (if not empty) */}
+        {user.education && user.education.length > 0 && (
+          <section>
+            <h3>Education</h3>
+            <ul>
+              {user.education.map((edu, index) => (
+                <li key={index}>
+                  <strong>{edu.degreeTitle}</strong> - {edu.institute} (
+                  {formatDate(edu.startDate)} - {formatDate(edu.endDate)})
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
-        <section>
-          <h3>Experience</h3>
-          <p>{user.experience}</p>
-        </section>
+        {/* Experience (if not empty) */}
+        {user.experience && user.experience.length > 0 && (
+          <section>
+            <h3>Experience</h3>
+            <ul>
+              {user.experience.map((exp, index) => (
+                <li key={index}>
+                  <strong>{exp.position} at {exp.company}</strong> (
+                  {formatDate(exp.startDate)} - {formatDate(exp.endDate)})
+                  <p>{exp.details}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
 
-        <section>
-          <h3>Education</h3>
-          <p>{user.education}</p>
-        </section>
+        {/* Certifications (if not empty) */}
+        {user.certifications && user.certifications.length > 0 && (
+          <section>
+            <h3>Certifications</h3>
+            <ul>
+              {user.certifications.map((cert, index) => (
+                <li key={index}>{cert}</li>
+              ))}
+            </ul>
+          </section>
+        )}
 
-        <section>
-          <h3>Interests</h3>
-          <ul>
-            {user.interests.map((interest, index) => (
-              <li key={index}>{interest}</li>
-            ))}
-          </ul>
-        </section>
+        {/* Publications (if not empty) */}
+        {user.publications && user.publications.length > 0 && (
+          <section>
+            <h3>Publications</h3>
+            <ul>
+              {user.publications.map((pub, index) => (
+                <li key={index}>
+                  <strong>{pub.title}</strong> - Published on: {formatDate(pub.date)}
+                  <a href={pub.link} target="_blank" rel="noopener noreferrer">
+                    Read More
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Skills (if not empty) */}
+        {user.skills && user.skills.length > 0 && (
+          <section>
+            <h3>Skills</h3>
+            <ul>
+              {user.skills.map((skill, index) => (
+                <li key={index}>{skill}</li>
+              ))}
+            </ul>
+          </section>
+        )}
+
+        {/* Projects (if not empty) */}
+        {user.projects && user.projects.length > 0 && (
+          <section>
+            <h3>Projects</h3>
+            <ul>
+              {user.projects.map((proj, index) => (
+                <li key={index}>
+                  <strong>{proj.title}</strong>
+                  <p>{proj.description}</p>
+                  <p>Technologies: {proj.technologies}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+        )}
       </div>
 
       <button className={styles.downloadButton} onClick={generatePDF}>
