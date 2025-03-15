@@ -1,0 +1,622 @@
+[
+    {
+        "name": "MERN Stack Developer",
+        "description": "As a MERN Stack Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Data Structures",
+            "CSS",
+            "Machine Learning",
+            "C++",
+            "Algorithms",
+            "Angular"
+        ],
+        "location": "Bangalore, India",
+        "rating": 1.8
+    },
+    {
+        "name": "Next.js Developer",
+        "description": "As a Next.js Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "React.js",
+            "Data Structures",
+            "HTML"
+        ],
+        "location": "Bangalore, India",
+        "rating": 2.2
+    },
+    {
+        "name": "Backend Developer",
+        "description": "As a Backend Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Node.js",
+            "Python",
+            "MongoDB",
+            "AI"
+        ],
+        "location": "Tokyo, Japan",
+        "rating": 3.6
+    },
+    {
+        "name": "Software Engineer",
+        "description": "As a Software Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "React.js",
+            "Data Structures",
+            "Machine Learning",
+            "Cybersecurity",
+            "CSS",
+            "HTML"
+        ],
+        "location": "Bangalore, India",
+        "rating": 3.3
+    },
+    {
+        "name": "AI Engineer",
+        "description": "As a AI Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Machine Learning",
+            "C++",
+            "Cybersecurity",
+            "Docker"
+        ],
+        "location": "Dubai, UAE",
+        "rating": 3.3
+    },
+    {
+        "name": "Frontend Developer",
+        "description": "As a Frontend Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "Java",
+            "Node.js",
+            "HTML",
+            "Kubernetes",
+            "Cybersecurity"
+        ],
+        "location": "Bangalore, India",
+        "rating": 4.1
+    },
+    {
+        "name": "Full Stack Developer",
+        "description": "As a Full Stack Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "CSS",
+            "Cybersecurity",
+            "MongoDB",
+            "C++",
+            "Data Structures"
+        ],
+        "location": "Berlin, Germany",
+        "rating": 0.9
+    },
+    {
+        "name": "DevOps Engineer",
+        "description": "As a DevOps Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "Kubernetes",
+            "CSS",
+            "Docker"
+        ],
+        "location": "Singapore",
+        "rating": 0.8
+    },
+    {
+        "name": "Data Scientist",
+        "description": "As a Data Scientist, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "HTML",
+            "JavaScript",
+            "AWS",
+            "Python"
+        ],
+        "location": "Dubai, UAE",
+        "rating": 3.4
+    },
+    {
+        "name": "Machine Learning Engineer",
+        "description": "As a Machine Learning Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "DevOps",
+            "Python",
+            "Docker",
+            "AWS"
+        ],
+        "location": "Singapore",
+        "rating": 2.3
+    },
+    {
+        "name": "Cybersecurity Analyst",
+        "description": "As a Cybersecurity Analyst, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "JavaScript",
+            "Angular",
+            "Cybersecurity",
+            "CSS",
+            "React.js"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 0.0
+    },
+    {
+        "name": "Cloud Solutions Architect",
+        "description": "As a Cloud Solutions Architect, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Kubernetes",
+            "Docker",
+            "AI",
+            "Cybersecurity"
+        ],
+        "location": "Berlin, Germany",
+        "rating": 3.8
+    },
+    {
+        "name": "Mobile App Developer",
+        "description": "As a Mobile App Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "HTML",
+            "Node.js",
+            "React.js",
+            "C++",
+            "JavaScript"
+        ],
+        "location": "Toronto, Canada",
+        "rating": 0.7
+    },
+    {
+        "name": "Blockchain Developer",
+        "description": "As a Blockchain Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "Kubernetes",
+            "Docker",
+            "AWS",
+            "Data Structures",
+            "Python"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 2.3
+    },
+    {
+        "name": "Embedded Systems Engineer",
+        "description": "As a Embedded Systems Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "DevOps",
+            "Kubernetes",
+            "Java"
+        ],
+        "location": "Bangalore, India",
+        "rating": 1.1
+    },
+    {
+        "name": "Game Developer",
+        "description": "As a Game Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "C++",
+            "Data Structures",
+            "Algorithms"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 3.8
+    },
+    {
+        "name": "Database Administrator",
+        "description": "As a Database Administrator, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "AI",
+            "HTML",
+            "DevOps"
+        ],
+        "location": "Bangalore, India",
+        "rating": 3.8
+    },
+    {
+        "name": "Technical Product Manager",
+        "description": "As a Technical Product Manager, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "Data Structures",
+            "Cybersecurity",
+            "Kubernetes",
+            "Angular",
+            "C++"
+        ],
+        "location": "London, UK",
+        "rating": 4.1
+    },
+    {
+        "name": "UI/UX Designer",
+        "description": "As a UI/UX Designer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "JavaScript",
+            "DevOps"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 2.1
+    },
+    {
+        "name": "System Analyst",
+        "description": "As a System Analyst, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "React.js",
+            "JavaScript",
+            "HTML"
+        ],
+        "location": "Berlin, Germany",
+        "rating": 4.7
+    },
+    {
+        "name": "IT Support Specialist",
+        "description": "As a IT Support Specialist, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "AWS",
+            "Machine Learning"
+        ],
+        "location": "Tokyo, Japan",
+        "rating": 3.0
+    },
+    {
+        "name": "Network Engineer",
+        "description": "As a Network Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "DevOps",
+            "C++",
+            "Angular",
+            "Algorithms"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 4.8
+    },
+    {
+        "name": "Site Reliability Engineer (SRE)",
+        "description": "As a Site Reliability Engineer (SRE), you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "AI",
+            "Cybersecurity",
+            "Kubernetes",
+            "MongoDB"
+        ],
+        "location": "Singapore",
+        "rating": 4.4
+    },
+    {
+        "name": "IT Project Manager",
+        "description": "As a IT Project Manager, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "React.js",
+            "DevOps",
+            "Node.js",
+            "Python"
+        ],
+        "location": "Bangalore, India",
+        "rating": 4.9
+    },
+    {
+        "name": "Software Quality Assurance Engineer",
+        "description": "As a Software Quality Assurance Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "AWS",
+            "Python",
+            "Java"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 3.0
+    },
+    {
+        "name": "Technical Writer",
+        "description": "As a Technical Writer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Machine Learning",
+            "DevOps",
+            "React.js",
+            "MongoDB"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 4.5
+    },
+    {
+        "name": "Big Data Engineer",
+        "description": "As a Big Data Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Algorithms",
+            "HTML",
+            "Docker",
+            "Data Structures",
+            "CSS"
+        ],
+        "location": "Tokyo, Japan",
+        "rating": 2.6
+    },
+    {
+        "name": "Business Intelligence Developer",
+        "description": "As a Business Intelligence Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "CSS",
+            "JavaScript",
+            "SQL"
+        ],
+        "location": "Singapore",
+        "rating": 4.6
+    },
+    {
+        "name": "AR/VR Developer",
+        "description": "As a AR/VR Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Data Structures",
+            "Algorithms",
+            "AI",
+            "DevOps",
+            "MongoDB"
+        ],
+        "location": "Toronto, Canada",
+        "rating": 4.3
+    },
+    {
+        "name": "Robotics Engineer",
+        "description": "As a Robotics Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "C++",
+            "Node.js",
+            "JavaScript"
+        ],
+        "location": "London, UK",
+        "rating": 4.2
+    },
+    {
+        "name": "Penetration Tester",
+        "description": "As a Penetration Tester, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Node.js",
+            "HTML",
+            "MongoDB",
+            "Algorithms"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 4.5
+    },
+    {
+        "name": "Web Developer",
+        "description": "As a Web Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "Python",
+            "Machine Learning",
+            "Kubernetes"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 2.9
+    },
+    {
+        "name": "Software Architect",
+        "description": "As a Software Architect, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "AWS",
+            "Angular",
+            "JavaScript",
+            "Algorithms",
+            "C++",
+            "HTML"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 1.8
+    },
+    {
+        "name": "Platform Engineer",
+        "description": "As a Platform Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "CSS",
+            "Cybersecurity",
+            "Angular",
+            "HTML",
+            "SQL"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 0.1
+    },
+    {
+        "name": "Application Security Engineer",
+        "description": "As a Application Security Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "Kubernetes",
+            "MongoDB",
+            "Data Structures",
+            "Machine Learning",
+            "Java"
+        ],
+        "location": "Singapore",
+        "rating": 0.6
+    },
+    {
+        "name": "Data Analyst",
+        "description": "As a Data Analyst, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Angular",
+            "Data Structures",
+            "Kubernetes",
+            "C++"
+        ],
+        "location": "Tokyo, Japan",
+        "rating": 3.0
+    },
+    {
+        "name": "Integration Engineer",
+        "description": "As a Integration Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "MongoDB",
+            "DevOps",
+            "Docker",
+            "Node.js",
+            "AI"
+        ],
+        "location": "Dubai, UAE",
+        "rating": 3.0
+    },
+    {
+        "name": "Research Scientist (AI/ML)",
+        "description": "As a Research Scientist (AI/ML), you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Angular",
+            "Data Structures",
+            "Machine Learning",
+            "C++",
+            "Kubernetes",
+            "React.js"
+        ],
+        "location": "Bangalore, India",
+        "rating": 1.6
+    },
+    {
+        "name": "Solutions Engineer",
+        "description": "As a Solutions Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "DevOps",
+            "Data Structures",
+            "Angular"
+        ],
+        "location": "Bangalore, India",
+        "rating": 4.9
+    },
+    {
+        "name": "Software Development Manager",
+        "description": "As a Software Development Manager, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "C++",
+            "Python",
+            "Angular",
+            "HTML",
+            "Machine Learning",
+            "Algorithms"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 1.2
+    },
+    {
+        "name": "IoT Engineer",
+        "description": "As a IoT Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Algorithms",
+            "SQL",
+            "C++",
+            "Node.js",
+            "HTML"
+        ],
+        "location": "San Francisco, USA",
+        "rating": 2.8
+    },
+    {
+        "name": "Computer Vision Engineer",
+        "description": "As a Computer Vision Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "C++",
+            "Machine Learning",
+            "Cybersecurity",
+            "AWS",
+            "HTML",
+            "Node.js"
+        ],
+        "location": "Berlin, Germany",
+        "rating": 2.0
+    },
+    {
+        "name": "Cloud Developer",
+        "description": "As a Cloud Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Cybersecurity",
+            "C++",
+            "Docker"
+        ],
+        "location": "Singapore",
+        "rating": 0.7
+    },
+    {
+        "name": "Game Designer",
+        "description": "As a Game Designer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "SQL",
+            "Python",
+            "Node.js"
+        ],
+        "location": "Tokyo, Japan",
+        "rating": 3.1
+    },
+    {
+        "name": "Tech Support Analyst",
+        "description": "As a Tech Support Analyst, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Angular",
+            "JavaScript",
+            "C++"
+        ],
+        "location": "Toronto, Canada",
+        "rating": 2.4
+    },
+    {
+        "name": "CRM Developer",
+        "description": "As a CRM Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "DevOps",
+            "SQL",
+            "Angular",
+            "HTML"
+        ],
+        "location": "London, UK",
+        "rating": 2.0
+    },
+    {
+        "name": "E-commerce Specialist",
+        "description": "As a E-commerce Specialist, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "C++",
+            "Data Structures",
+            "MongoDB",
+            "Cybersecurity",
+            "React.js"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 1.3
+    },
+    {
+        "name": "IT Operations Manager",
+        "description": "As a IT Operations Manager, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "JavaScript",
+            "Kubernetes",
+            "MongoDB",
+            "SQL"
+        ],
+        "location": "Bangalore, India",
+        "rating": 2.1
+    },
+    {
+        "name": "Infrastructure Engineer",
+        "description": "As a Infrastructure Engineer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Node.js",
+            "Cybersecurity",
+            "Docker",
+            "Kubernetes"
+        ],
+        "location": "New York, USA",
+        "rating": 0.5
+    },
+    {
+        "name": "API Developer",
+        "description": "As a API Developer, you will be responsible for creating and maintaining solutions that solve complex problems in the field of computer science.",
+        "requiredSkills": [
+            "Angular",
+            "Docker",
+            "CSS",
+            "C++",
+            "Node.js",
+            "Machine Learning"
+        ],
+        "location": "Sydney, Australia",
+        "rating": 1.9
+    }
+]

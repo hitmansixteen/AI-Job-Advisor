@@ -1,53 +1,53 @@
-function extractJobDetails() {
-    // Company Name
-    const companyNameElement = document.querySelector(
-        ".job-details-jobs-unified-top-card__company-name a"
-    );
-    const companyName = companyNameElement
-        ? companyNameElement.textContent.trim()
-        : "N/A";
+// function extractJobDetails() {
+//     // Company Name
+//     const companyNameElement = document.querySelector(
+//         ".job-details-jobs-unified-top-card__company-name a"
+//     );
+//     const companyName = companyNameElement
+//         ? companyNameElement.textContent.trim()
+//         : "N/A";
 
-    // Job Title
-    const jobTitleElement = document.querySelector(
-        ".job-details-jobs-unified-top-card__job-title h1 a"
-    );
-    const jobTitle = jobTitleElement
-        ? jobTitleElement.textContent.trim()
-        : "N/A";
+//     // Job Title
+//     const jobTitleElement = document.querySelector(
+//         ".job-details-jobs-unified-top-card__job-title h1 a"
+//     );
+//     const jobTitle = jobTitleElement
+//         ? jobTitleElement.textContent.trim()
+//         : "N/A";
 
-    // Primary Description
-    const primaryDescriptionElement = document.querySelector(
-        ".job-details-jobs-unified-top-card__primary-description-container"
-    );
-    const primaryDescription = primaryDescriptionElement
-        ? primaryDescriptionElement.textContent.trim().replace(/\s+/g, " ")
-        : "N/A";
+//     // Primary Description
+//     const primaryDescriptionElement = document.querySelector(
+//         ".job-details-jobs-unified-top-card__primary-description-container"
+//     );
+//     const primaryDescription = primaryDescriptionElement
+//         ? primaryDescriptionElement.textContent.trim().replace(/\s+/g, " ")
+//         : "N/A";
 
-    // Job Preferences and Skills
-    const preferencesAndSkillsElements = document.querySelectorAll(
-        ".job-details-preferences-and-skills__pill span"
-    );
-    const preferencesAndSkills = Array.from(preferencesAndSkillsElements)
-        .map((el) => el.textContent.trim())
-        .join(", ");
+//     // Job Preferences and Skills
+//     const preferencesAndSkillsElements = document.querySelectorAll(
+//         ".job-details-preferences-and-skills__pill span"
+//     );
+//     const preferencesAndSkills = Array.from(preferencesAndSkillsElements)
+//         .map((el) => el.textContent.trim())
+//         .join(", ");
 
-    // Job Description
-    const jobDescriptionElement = document.querySelector(
-        ".jobs-description__content .jobs-box__html-content"
-    );
-    const jobDescription = jobDescriptionElement
-        ? jobDescriptionElement.textContent.trim().replace(/\s+/g, " ")
-        : "N/A";
+//     // Job Description
+//     const jobDescriptionElement = document.querySelector(
+//         ".jobs-description__content .jobs-box__html-content"
+//     );
+//     const jobDescription = jobDescriptionElement
+//         ? jobDescriptionElement.textContent.trim().replace(/\s+/g, " ")
+//         : "N/A";
 
-    // Return the extracted details as an object
-    return {
-        companyName,
-        jobTitle,
-        primaryDescription,
-        preferencesAndSkills,
-        jobDescription,
-    };
-}
+//     // Return the extracted details as an object
+//     return {
+//         companyName,
+//         jobTitle,
+//         primaryDescription,
+//         preferencesAndSkills,
+//         jobDescription,
+//     };
+// }
 
 // Function to add a custom button after the "Easy Apply" button
 function addCustomButton() {
@@ -72,8 +72,8 @@ function addCustomButton() {
         customButton.onclick = () => {
             window.open("https://www.google.com", "_blank"); // Open in a new tab
             // Example usage
-            const jobDetails = extractJobDetails();
-            console.log(jobDetails);
+            //const jobDetails = extractJobDetails();
+            //console.log(jobDetails);
         };
 
         // Create a spacer element
