@@ -111,7 +111,25 @@ const UserProfile = () => {
                 <h1 className={styles.profileTitle}>{user.name}'s Profile</h1>
 
                 <button
-                    onClick={() => setIsEditing(!isEditing)}
+                    onClick={() => {
+                        if (isEditing){
+                            setFormData({
+                                name: user.name || "",
+                                email: user.email || "",
+                                contact: user.contact || "",
+                                address: user.address || "",
+                                education: user.education || [],
+                                experience: user.experience || [],
+                                certifications: user.certifications || [],
+                                publications: user.publications || [],
+                                skills: user.skills || [],
+                                projects: user.projects || [],
+                                linkedIn: user.linkedIn || "",
+                                github: user.github || "",
+                            });
+                        }
+                        setIsEditing(!isEditing);
+                    }}
                     className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
                 >
                     {isEditing ? "Cancel Edit" : "Edit Profile"}
@@ -164,6 +182,9 @@ const UserProfile = () => {
                             <div key={index}>
                                 <input type="text" placeholder="Degree Title" value={edu.degreeTitle} onChange={(e) => handleArrayChange("education", index, "degreeTitle", e.target.value)} disabled={!isEditing} className="input" />
                                 <input type="text" placeholder="Institute" value={edu.institute} onChange={(e) => handleArrayChange("education", index, "institute", e.target.value)} disabled={!isEditing} className="input" />
+                                {isEditing && (
+                                    <button type="button" onClick={() => handleDeleteArrayEntry("education", index)} className="btn-danger">Delete</button>
+                                )}
                             </div>
                         ))}
                         {isEditing && <button type="button" onClick={() => handleNewArrayEntry("education", { degreeTitle: "", institute: "" })}>+ Add Education</button>}
@@ -177,6 +198,9 @@ const UserProfile = () => {
                                 <input type="text" placeholder="Company" value={exp.company} onChange={(e) => handleArrayChange("experience", index, "company", e.target.value)} disabled={!isEditing} className="input" />
                                 <input type="text" placeholder="Position" value={exp.position} onChange={(e) => handleArrayChange("experience", index, "position", e.target.value)} disabled={!isEditing} className="input" />
                                 <input type="text" placeholder="Details" value={exp.details} onChange={(e) => handleArrayChange("experience", index, "details", e.target.value)} disabled={!isEditing} className="input" />
+                                {isEditing && (
+                                    <button type="button" onClick={() => handleDeleteArrayEntry("experience", index)} className="btn-danger">Delete</button>
+                                )}
                             </div>
                         ))}
                         {isEditing && <button type="button" onClick={() => handleNewArrayEntry("experience", { company: "", position: "", details: "" })}>+ Add Experience</button>}
@@ -195,7 +219,7 @@ const UserProfile = () => {
 
                 {isEditing && (
                     <div className={styles.profileActions}>
-                        <button type="submit" className="btn-primary">Save Changes</button>
+                        <button type="submit" className="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg">Save Changes</button>
                     </div>
                 )}
             </form>
