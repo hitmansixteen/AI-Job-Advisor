@@ -1,3 +1,4 @@
+import sys
 import faiss
 import numpy as np
 import pickle
@@ -129,6 +130,10 @@ def search_jobs(user_email, top_k=10):
     return json.dumps(refined_jobs)  # Ensure JSON format
 
 if __name__ == "__main__":
-    user_email = "wajeeh.kniazi@gmail.com"
+    if len(sys.argv) < 2:
+        print(json.dumps({"error": "No email provided"}))  # Return JSON error if no email is passed
+        sys.exit(1)
+    
+    user_email = sys.argv[1]  # ✅ Read email from command-line arguments
     results = search_jobs(user_email)
-    print(results) # Now it prints valid JSON
+    print(results)  # Print JSON response for Next.js API
