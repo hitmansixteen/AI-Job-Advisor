@@ -1,9 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/router';
 import styles from './Profile.module.css'; // Custom CSS for the page
 import Button from "../utils/Button";
+import ResumeTemplate from "./resume_template";
 
 const UserProfile = () => {
+    const router = useRouter();
     const { data: session } = useSession();
     const [user, setUser] = useState(null);
     const [isEditing, setIsEditing] = useState(false);
@@ -67,42 +70,48 @@ const UserProfile = () => {
         setFormData(updatedData);
     };
 
-    const addEducation = () => {
+    const addEducation = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             education: [...formData.education, { degreeTitle: "", institute: "", startDate: "", endDate: "" }],
         });
     };
 
-    const addExperience = () => {
+    const addExperience = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             experience: [...formData.experience, { company: "", position: "", startDate: "", endDate: "", details: "" }],
         });
     };
 
-    const addCertification = () => {
+    const addCertification = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             certifications: [...formData.certifications, ""],
         });
     };
 
-    const addPublication = () => {
+    const addPublication = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             publications: [...formData.publications, { title: "", link: "", date: "" }],
         });
     };
 
-    const addSkill = () => {
+    const addSkill = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             skills: [...formData.skills, ""],
         });
     };
 
-    const addProject = () => {
+    const addProject = (e) => {
+        e.preventDefault();
         setFormData({
             ...formData,
             projects: [...formData.projects, { title: "", description: "", technologies: "" }],
@@ -167,341 +176,321 @@ const UserProfile = () => {
     }
 
     return (
-        <div className={styles.profileContainer}>
-            <div className={styles.profileHeader}>
-                <h1 className={styles.profileTitle}>{user.name}'s Profile</h1>
-                <button
-                    onClick={() => {
-                        if (isEditing) {
-                            // Reset formData to match the original user data
-                            setFormData({
-                                name: user.name || "",
-                                email: user.email || "",
-                                contact: user.contact || "",
-                                address: user.address || "",
-                                education: user.education || [{ degreeTitle: "", institute: "", startDate: "", endDate: "" }],
-                                experience: user.experience || [{ company: "", position: "", startDate: "", endDate: "", details: "" }],
-                                certifications: user.certifications || [],
-                                publications: user.publications || [{ title: "", link: "", date: "" }],
-                                skills: user.skills || [""],
-                                projects: user.projects || [{ title: "", description: "", technologies: "" }],
-                                linkedIn: user.linkedIn || "",
-                                github: user.github || "",
-                            });
-                        }
-                        setIsEditing(!isEditing);
-                    }}
-                    className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg"
-                >
-                    {isEditing ? "Cancel Edit" : "Edit Profile"}
-                </button>
+        <div className={styles.container}>
+            <div className={styles.formContainer}>
+                <div className={styles.profileHeader}>
+                    <h1 className={styles.profileTitle}>{user.name}'s Profile</h1>
+                    <Button onClick={() => setIsEditing(!isEditing)} text={isEditing ? "Cancel Edit" : "Edit Profile"} bgColor="bg-buttons" hoverColor="hover:bg-gray-600"/>
+                </div>
+
+                <form onSubmit={handleSubmit} className={styles.profileForm}>
+                    {/* Name */}
+                    <div className={styles.profileSection}>
+                        <label>Name:</label>
+                        <input
+                            type="text"
+                            name="name"
+                            value={formData.name}
+                            onChange={(e) => handleInputChange(e, null, "name", "text")}
+                            disabled={!isEditing}
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {/* Email */}
+                    <div className={styles.profileSection}>
+                        <label>Email:</label>
+                        <input
+                            type="email"
+                            name="email"
+                            value={formData.email}
+                            disabled
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {/* Contact */}
+                    <div className={styles.profileSection}>
+                        <label>Contact:</label>
+                        <input
+                            type="text"
+                            name="contact"
+                            value={formData.contact}
+                            onChange={(e) => handleInputChange(e, null, "contact", "text")}
+                            disabled={!isEditing}
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {/* Address */}
+                    <div className={styles.profileSection}>
+                        <label>Address:</label>
+                        <input
+                            type="text"
+                            name="address"
+                            value={formData.address}
+                            onChange={(e) => handleInputChange(e, null, "address", "text")}
+                            disabled={!isEditing}
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {/* Education */}
+                    <div className={styles.profileSection}>
+                        <label>Education:</label>
+                        {formData.education.map((edu, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    placeholder="Degree Title"
+                                    value={edu.degreeTitle}
+                                    onChange={(e) => handleInputChange(e, index, "degreeTitle", "education")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Institute"
+                                    value={edu.institute}
+                                    onChange={(e) => handleInputChange(e, index, "institute", "education")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="date"
+                                    value={edu.startDate}
+                                    onChange={(e) => handleInputChange(e, index, "startDate", "education")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="date"
+                                    value={edu.endDate}
+                                    onChange={(e) => handleInputChange(e, index, "endDate", "education")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removeEducation(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addEducation} text="Add Education" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
+                        )}
+                    </div>
+
+                    {/* Experience */}
+                    <div className={styles.profileSection}>
+                        <label>Experience:</label>
+                        {formData.experience.map((exp, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    placeholder="Company"
+                                    value={exp.company}
+                                    onChange={(e) => handleInputChange(e, index, "company", "experience")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Position"
+                                    value={exp.position}
+                                    onChange={(e) => handleInputChange(e, index, "position", "experience")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="date"
+                                    value={exp.startDate}
+                                    onChange={(e) => handleInputChange(e, index, "startDate", "experience")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="date"
+                                    value={exp.endDate}
+                                    onChange={(e) => handleInputChange(e, index, "endDate", "experience")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <textarea
+                                    placeholder="Details"
+                                    value={exp.details}
+                                    onChange={(e) => handleInputChange(e, index, "details", "experience")}
+                                    disabled={!isEditing}
+                                    className={styles.textarea}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removeExperience(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addExperience} text="Add Experience" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                        )}
+                    </div>
+
+                    {/* Certifications */}
+                    <div className={styles.profileSection}>
+                        <label>Certifications:</label>
+                        {formData.certifications.map((cert, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    value={cert}
+                                    onChange={(e) => handleInputChange(e, index, "certifications", "certifications")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removeCertification(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addCertification} text="Add Certification" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                        )}
+                    </div>
+
+                    {/* Publications */}
+                    <div className={styles.profileSection}>
+                        <label>Publications:</label>
+                        {formData.publications.map((pub, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    placeholder="Title"
+                                    value={pub.title}
+                                    onChange={(e) => handleInputChange(e, index, "title", "publications")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Link"
+                                    value={pub.link}
+                                    onChange={(e) => handleInputChange(e, index, "link", "publications")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <input
+                                    type="date"
+                                    value={pub.date}
+                                    onChange={(e) => handleInputChange(e, index, "date", "publications")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removePublication(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addPublication} text="Add Publication" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                        )}
+                    </div>
+
+                    {/* Skills */}
+                    <div className={styles.profileSection}>
+                        <label>Skills:</label>
+                        {formData.skills.map((skill, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    value={skill}
+                                    onChange={(e) => handleInputChange(e, index, "skills", "skills")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removeSkill(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                        )}
+                    </div>
+
+                    {/* Projects */}
+                    <div className={styles.profileSection}>
+                        <label>Projects:</label>
+                        {formData.projects.map((project, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    placeholder="Title"
+                                    value={project.title}
+                                    onChange={(e) => handleInputChange(e, index, "title", "projects")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                <textarea
+                                    placeholder="Description"
+                                    value={project.description}
+                                    onChange={(e) => handleInputChange(e, index, "description", "projects")}
+                                    disabled={!isEditing}
+                                    className={styles.textarea}
+                                />
+                                <input
+                                    type="text"
+                                    placeholder="Technologies"
+                                    value={project.technologies}
+                                    onChange={(e) => handleInputChange(e, index, "technologies", "projects")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <Button onClick={() => removeProject(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addProject} text="Add Project" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
+                        )}
+                    </div>
+
+                    {/* LinkedIn */}
+                    <div className={styles.profileSection}>
+                        <label>LinkedIn:</label>
+                        <input
+                            type="text"
+                            name="linkedIn"
+                            value={formData.linkedIn}
+                            onChange={(e) => handleInputChange(e, null, "linkedIn", "text")}
+                            disabled={!isEditing}
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {/* GitHub */}
+                    <div className={styles.profileSection}>
+                        <label>GitHub:</label>
+                        <input
+                            type="text"
+                            name="github"
+                            value={formData.github}
+                            onChange={(e) => handleInputChange(e, null, "github", "text")}
+                            disabled={!isEditing}
+                            className={styles.input}
+                        />
+                    </div>
+
+                    {isEditing && (
+                        <div className={styles.profileActions}>
+                            <button type="submit" className={styles.submitButton}>
+                                Save Changes
+                            </button>
+                        </div>
+                    )}
+                </form>
             </div>
 
-            <form onSubmit={handleSubmit} className={styles.profileForm}>
-                {/* Name */}
-                <div className={styles.profileSection}>
-                    <label>Name:</label>
-                    <input
-                        type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={(e) => handleInputChange(e, null, "name", "text")}
-                        disabled={!isEditing}
-                        className={styles.input}
-                    />
-                </div>
-
-                {/* Email */}
-                <div className={styles.profileSection}>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        disabled
-                        className={styles.input}
-                    />
-                </div>
-
-                {/* Contact */}
-                <div className={styles.profileSection}>
-                    <label>Contact:</label>
-                    <input
-                        type="text"
-                        name="contact"
-                        value={formData.contact}
-                        onChange={(e) => handleInputChange(e, null, "contact", "text")}
-                        disabled={!isEditing}
-                        className={styles.input}
-                    />
-                </div>
-
-                {/* Address */}
-                <div className={styles.profileSection}>
-                    <label>Address:</label>
-                    <input
-                        type="text"
-                        name="address"
-                        value={formData.address}
-                        onChange={(e) => handleInputChange(e, null, "address", "text")}
-                        disabled={!isEditing}
-                        className={styles.input}
-                    />
-                </div>
-
-                {/* Education */}
-                <div className={styles.profileSection}>
-                    <label>Education:</label>
-                    {formData.education.map((edu, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            
-                            <input
-                                type="text"
-                                placeholder="Degree Title"
-                                value={edu.degreeTitle}
-                                onChange={(e) => handleInputChange(e, index, "degreeTitle", "education")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Institute"
-                                value={edu.institute}
-                                onChange={(e) => handleInputChange(e, index, "institute", "education")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="date"
-                                value={edu.startDate}
-                                onChange={(e) => handleInputChange(e, index, "startDate", "education")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="date"
-                                value={edu.endDate}
-                                onChange={(e) => handleInputChange(e, index, "endDate", "education")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            {isEditing && (
-                                <Button onClick={() => removeEducation(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                            
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addEducation} text="Add Education" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
-                    )}
-                </div>
-
-                {/* Experience */}
-                <div className={styles.profileSection}>
-                    <label>Experience:</label>
-                    {formData.experience.map((exp, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            <input
-                                type="text"
-                                placeholder="Company"
-                                value={exp.company}
-                                onChange={(e) => handleInputChange(e, index, "company", "experience")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Position"
-                                value={exp.position}
-                                onChange={(e) => handleInputChange(e, index, "position", "experience")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="date"
-                                value={exp.startDate}
-                                onChange={(e) => handleInputChange(e, index, "startDate", "experience")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="date"
-                                value={exp.endDate}
-                                onChange={(e) => handleInputChange(e, index, "endDate", "experience")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <textarea
-                                placeholder="Details"
-                                value={exp.details}
-                                onChange={(e) => handleInputChange(e, index, "details", "experience")}
-                                disabled={!isEditing}
-                                className={styles.textarea}
-                            />
-                            {isEditing && (
-                                 <Button onClick={() => removeExperience(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addExperience} text="Add Experience" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
-                    )}
-                </div>
-
-                {/* Certifications */}
-                <div className={styles.profileSection}>
-                    <label>Certifications:</label>
-                    {formData.certifications.map((cert, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            <input
-                                type="text"
-                                value={cert}
-                                onChange={(e) => handleInputChange(e, index, "certifications", "certifications")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            {isEditing && (
-                                 <Button onClick={() => removeCertification(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addCertification} text="Add Certification" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
-                    )}
-                </div>
-
-                {/* Publications */}
-                <div className={styles.profileSection}>
-                    <label>Publications:</label>
-                    {formData.publications.map((pub, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            <input
-                                type="text"
-                                placeholder="Title"
-                                value={pub.title}
-                                onChange={(e) => handleInputChange(e, index, "title", "publications")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Link"
-                                value={pub.link}
-                                onChange={(e) => handleInputChange(e, index, "link", "publications")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <input
-                                type="date"
-                                value={pub.date}
-                                onChange={(e) => handleInputChange(e, index, "date", "publications")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            {isEditing && (
-                                 <Button onClick={() => removePublication(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addPublication} text="Add Publication" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
-                    )}
-                </div>
-
-                {/* Skills */}
-                <div className={styles.profileSection}>
-                    <label>Skills:</label>
-                    {formData.skills.map((skill, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            <input
-                                type="text"
-                                value={skill}
-                                onChange={(e) => handleInputChange(e, index, "skills", "skills")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            {isEditing && (
-                                 <Button onClick={() => removeSkill(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
-                    )}
-                </div>
-
-                {/* Projects */}
-                <div className={styles.profileSection}>
-                    <label>Projects:</label>
-                    {formData.projects.map((project, index) => (
-                        <div key={index} className={styles.inputGroup}>
-                            <input
-                                type="text"
-                                placeholder="Title"
-                                value={project.title}
-                                onChange={(e) => handleInputChange(e, index, "title", "projects")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            <textarea
-                                placeholder="Description"
-                                value={project.description}
-                                onChange={(e) => handleInputChange(e, index, "description", "projects")}
-                                disabled={!isEditing}
-                                className={styles.textarea}
-                            />
-                            <input
-                                type="text"
-                                placeholder="Technologies"
-                                value={project.technologies}
-                                onChange={(e) => handleInputChange(e, index, "technologies", "projects")}
-                                disabled={!isEditing}
-                                className={styles.input}
-                            />
-                            {isEditing && (
-                                 <Button onClick={() => removeProject(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
-                            )}
-                        </div>
-                    ))}
-                    {isEditing && (
-                        <Button onClick={addProject} text="Add Project" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
-                    )}
-                </div>
-
-                {/* LinkedIn */}
-                <div className={styles.profileSection}>
-                    <label>LinkedIn:</label>
-                    <input
-                        type="text"
-                        name="linkedIn"
-                        value={formData.linkedIn}
-                        onChange={(e) => handleInputChange(e, null, "linkedIn", "text")}
-                        disabled={!isEditing}
-                        className={styles.input}
-                    />
-                </div>
-
-                {/* GitHub */}
-                <div className={styles.profileSection}>
-                    <label>GitHub:</label>
-                    <input
-                        type="text"
-                        name="github"
-                        value={formData.github}
-                        onChange={(e) => handleInputChange(e, null, "github", "text")}
-                        disabled={!isEditing}
-                        className={styles.input}
-                    />
-                </div>
-
-                {isEditing && (
-                    <div className={styles.profileActions}>
-                        <button type="submit" className={styles.submitButton}>
-                            Save Changes
-                        </button>
-                    </div>
-                )}
-            </form>
+            <div className={styles.resumeContainer}>
+                <ResumeTemplate user={formData} />
+            </div>
         </div>
     );
 };

@@ -3,8 +3,10 @@ import styles from "@/styles/JobList.module.css";
 import Button from "./utils/Button";
 import { useSession } from "next-auth/react";
 import SimilarityScore from "./SimilarityScore";
+import { useRouter } from "next/router";
 
 const JobList = ({ jobs }) => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [similarityTab, setSimilarityTab] = useState(false);
   const [jobData, setJobData] = useState("");
@@ -26,6 +28,9 @@ const JobList = ({ jobs }) => {
           <p className={styles.cardSkills}>
             <strong>Required Skills:</strong> {job.requiredSkills.join(", ")}
           </p>
+          {
+            job.reason && <p>{job.reason}</p>
+          }
           <div className = {styles.buttons}>
             {status === "authenticated" && (
               <>
@@ -34,7 +39,12 @@ const JobList = ({ jobs }) => {
                 bgColor="bg-buttons"
                 hoverColor="hover:bg-gray-600"
                 sizeY = "2"
-                onClick={() => alert("Application submitted!")}
+                onClick={() =>
+                  router.push({
+                    pathname: "/customized_cv",
+                    query: { job: JSON.stringify(job) }, // Convert object to string
+                  })
+                }
                 />
 
                 <Button
