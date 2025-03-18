@@ -1,41 +1,104 @@
+/* Modern and formal styling */
 .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2%;
-    height: 5rem;
-    background-color: #1a2c45;
-  }
-  
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 5%;
+  height: 5rem;
+  background-color: #1a2c45;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  font-size: 2rem;
+  font-family: 'Fira', sans-serif;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  margin: 0;
+}
+
+.logo a {
+  text-decoration: none;
+  color: #cfc5c5;
+  font-weight: bold;
+  transition: color 0.2s ease-in-out;
+}
+
+.logo a:hover {
+  color: #ffffff;
+}
+
+.navigation {
+  display: flex;
+  align-items: center;
+}
+
+.navList {
+  display: flex;
+  gap: 0.5rem; /* Reduced space between buttons */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+}
+
+.customButton {
+  background-color: #214591; /* Blue-600 */
+  color: #ffffff; /* White */
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.customButton:hover {
+  background-color: #748dd3; /* Blue-700 */
+  transform: translateY(-2px);
+}
+
+.customButton:active {
+  background-color: #2647b0; /* Blue-800 */
+  transform: translateY(0);
+}
+
+.customButtonLogout {
+  background-color: #8a3b3b; /* Red-600 */
+  color: #ffffff; /* White */
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.customButtonLogout:hover {
+  background-color: #b91c1c; /* Red-700 */
+  transform: translateY(-2px);
+}
+
+.customButtonLogout:active {
+  background-color: #991b1b; /* Red-800 */
+  transform: translateY(0);
+}
+
+@media (min-width: 768px) {
   .logo {
-    font-size: 2rem !important;
-    font-family: 'Fira', sans-serif;
-    color: #ffffff;
-    display: flex;
-    align-items: center;
-    padding: 0; /* Remove extra padding */
-    margin: 0; /* Remove any default margin */
-  }
-  
-  .logo a {
-    text-decoration: none;
-    color: #dedede;
-    font-weight:bolder;
-  }
-  
-  .navigation a {
-    text-decoration: none;
-    color: #74dacc;
-    font-size: 1rem;
-  }
-  
-  @media (min-width: 768px) {
-    .logo {
       font-size: 2.5rem;
-    }
-  
-    .navigation a {
-      font-size: 1.5rem;
-    }
   }
+
+  .navList {
+      gap: 0.5rem; /* Increase space between buttons on larger screens */
+  }
+}

@@ -1,80 +1,130 @@
-/* styles/JobList.module.css */
+/* Modern and formal styling */
 .grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1.5rem;
-}
-
-@media (min-width: 768px) {
+    padding: 3rem;
+  }
+  
+  @media (min-width: 768px) {
     .grid {
-        grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(2, 1fr);
     }
-}
-
-@media (min-width: 1024px) {
+  }
+  
+  @media (min-width: 1024px) {
     .grid {
-        grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 1fr);
     }
-}
-
-.card {
+  }
+  
+  .card {
     display: flex;
     flex-direction: column;
-    padding: 1rem;
+    padding: 1.5rem;
     background-color: #ffffff;
-    /* White */
+    border: 1px solid #e5e7eb;
+    border-radius: 0.75rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 0.5rem;
-    /* Rounded corners */
-}
-
-.cardTitle {
-    font-size: 1.25rem;
-    /* xl */
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+  }
+  
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  }
+  
+  .cardTitle {
+    font-size: 1.5rem;
     font-weight: 600;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
     color: #1f2937;
-    /* Gray-800 */
-}
-
-.cardDescription {
+  }
+  
+  .cardDescription {
     color: #4b5563;
-    /* Gray-700 */
-    margin-bottom: 0.5rem;
-}
-
-.cardLocation {
+    margin-bottom: 1rem;
+    line-height: 1.5;
+  }
+  
+  .cardLocation {
     color: #374151;
-    /* Gray-600 */
     font-size: 0.875rem;
-    /* sm */
     margin-bottom: 0.5rem;
-}
-
-.cardSkills {
+  }
+  
+  .cardSkills {
     color: #2563eb;
-    /* Blue-600 */
     font-size: 0.875rem;
-    /* sm */
-    margin-bottom: 0.5rem;
-}
-
-.cardRating {
-    color: #6b7280;
-    /* Gray-500 */
+    margin-bottom: 1rem;
+  }
+  
+  .cardReason {
+    color: #10b981;
     font-size: 0.875rem;
-    /* sm */
-    font-weight: bold;
-}
-
-.form-container label {
-    font-size: 16px;
-    color: #555;
-    margin-bottom: 8px;
-    display: block;
-}
-
-.buttons {
+    margin-bottom: 1rem;
+    font-style: italic;
+  }
+  
+  .buttons {
     display: flex;
+    gap: 0.75rem;
     margin-top: auto;
-}
+  }
+  
+  .customButton {
+    background-color: #283246; /* Blue-600 */
+    color: #ffffff; /* White */
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+  }
+  
+  .customButton:hover {
+    background-color: #393f4c; /* Blue-700 */
+    transform: translateY(-2px);
+  }
+  
+  .customButton:disabled {
+    background-color: #9ca3af; /* Gray-400 */
+    cursor: not-allowed;
+    transform: none;
+  }
+  
+  .modalOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalContent {
+    padding: 2rem;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
