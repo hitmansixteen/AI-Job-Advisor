@@ -58,12 +58,18 @@ def create_query_from_profile(user_profile):
     query = f"Job for a candidate with skills in {skills}, having experience in {experience}, and education in {education}."
     return query
 
-def refine_with_llama(user_profile, retrieved_jobs):
-    """Use Llama 3.1 (via subprocess) to rank and refine job recommendations."""
+import google.generativeai as genai
 
+# Configure Gemini API
+GENAI_API_KEY = "AIzaSyBa2Xy7rLUiDXTr1w6VuWhPMR-lYH6GYYI"  # 🔹 Replace with your actual API key
+genai.configure(api_key=GENAI_API_KEY)
+
+def refine_with_gemini(user_profile, retrieved_jobs):
+    """Use Gemini to rank and refine job recommendations."""
+    
     prompt = f"""
     You are an AI system that ranks job listings based on a given user profile. 
-    Return only a JSON array containing the top 5 ranked jobs, where each job is an object with:
+    Return only a JSON array containing the top 10 ranked jobs, where each job is an object with:
     - "title": Job title
     - "description": Job description
     - "reason": Why this job was recommended (matching skills, experience, etc.)
@@ -79,39 +85,26 @@ def refine_with_llama(user_profile, retrieved_jobs):
     {json.dumps(retrieved_jobs, indent=2)}
     """
 
-
     try:
-        # Use subprocess to call Ollama CLI
-        process = subprocess.Popen(
-            ["ollama", "run", "llama3.1:latest"],
-            stdin=subprocess.PIPE,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True
-        )
+        # Call Gemini API
+        model = genai.GenerativeModel("gemini-2.0-flash")
+        response = model.generate_content(prompt)
 
-        # Send prompt to Ollama
-        output, error = process.communicate(input=prompt)
-        if process.returncode == 0:
-            # Extract JSON from the response
-            match = re.search(r"\[.*\]", output, re.DOTALL)  # Find JSON array in output
-            if match:
-                json_data = match.group(0)  # Extract only the JSON part
-                refined_jobs = json.loads(json_data)
-                return refined_jobs
-            else:
-                print("No valid JSON found in Llama response.")
-                return retrieved_jobs  # Fall back to original FAISS results
+        # Extract JSON from the response
+        match = re.search(r"\[.*\]", response.text, re.DOTALL)
+        if match:
+            json_data = match.group(0)
+            refined_jobs = json.loads(json_data)
+            return refined_jobs
 
-        else:
-            print(f"Error calling Ollama: {error}")
-            return retrieved_jobs  # Fall back to original results
+        print("No valid JSON found in Gemini response.")
+        return retrieved_jobs  # Fallback to FAISS results
 
     except Exception as e:
-        print(f"Exception in refining jobs with Llama: {e}")
-        return retrieved_jobs  # Fall back to FAISS results
+        print(f"Exception in refining jobs with Gemini: {e}")
+        return retrieved_jobs  # Fallback
 
-def search_jobs(user_email, top_k=10):
+def search_jobs(user_email, top_k=30):
     """Retrieve and refine job recommendations using FAISS and Llama 3.1."""
     user_profile = get_user_profile(user_email)
     if not user_profile:
@@ -125,7 +118,7 @@ def search_jobs(user_email, top_k=10):
     retrieved_jobs = [{"title": jobs[i]["name"], "description": jobs[i]["description"]} for i in indices[0]]
 
     # Use Llama to refine the job list
-    refined_jobs = refine_with_llama(user_profile, retrieved_jobs)
+    refined_jobs = refine_with_gemini(user_profile, retrieved_jobs)
 
     return json.dumps(refined_jobs)  # Ensure JSON format
 
