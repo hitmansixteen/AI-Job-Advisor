@@ -17,7 +17,7 @@ def preprocess_text(text):
     stemmed_tokens = [stemmer.stem(token) for token in tokens]
     return set(stemmed_tokens)
 
-def calculate_similarity_using_lda_and_tfidf(cv_data, job_data):
+def calculate_similarity_using_lda(cv_data, job_data):
     # Preprocess both CV and job data
     cv_tokens = preprocess_text(cv_data)
     job_tokens = preprocess_text(job_data)

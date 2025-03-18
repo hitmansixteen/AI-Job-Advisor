@@ -49,7 +49,7 @@ const UserProfile = () => {
                 .catch(error => console.error("Error fetching user data:", error));
         }
     }, [session]);
-
+    
     const handleInputChange = (e, index, field, type) => {
         const updatedData = { ...formData };
         if (type === "education") {
@@ -180,7 +180,7 @@ const UserProfile = () => {
             <div className={styles.formContainer}>
                 <div className={styles.profileHeader}>
                     <h1 className={styles.profileTitle}>{user.name}'s Profile</h1>
-                    <Button onClick={() => setIsEditing(!isEditing)} text={isEditing ? "Cancel Edit" : "Edit Profile"} bgColor="bg-buttons" hoverColor="hover:bg-gray-600"/>
+                    <Button onClick={() => setIsEditing(!isEditing)} text={isEditing ? "Cancel Edit" : "Edit Profile"} bgColor="bg-blue-600" hoverColor="hover:bg-blue-700" />
                 </div>
 
                 <form onSubmit={handleSubmit} className={styles.profileForm}>
@@ -261,7 +261,7 @@ const UserProfile = () => {
                                     value={edu.startDate}
                                     onChange={(e) => handleInputChange(e, index, "startDate", "education")}
                                     disabled={!isEditing}
-                                    className={styles.input}
+                                    className={styles.date}
                                 />
                                 <input
                                     type="date"
@@ -271,7 +271,13 @@ const UserProfile = () => {
                                     className={styles.input}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removeEducation(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeEducation(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}
@@ -323,12 +329,18 @@ const UserProfile = () => {
                                     className={styles.textarea}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removeExperience(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeExperience(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}
                         {isEditing && (
-                            <Button onClick={addExperience} text="Add Experience" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                            <Button onClick={addExperience} text="Add Experience" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
                         )}
                     </div>
 
@@ -345,12 +357,18 @@ const UserProfile = () => {
                                     className={styles.input}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removeCertification(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeCertification(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}
                         {isEditing && (
-                            <Button onClick={addCertification} text="Add Certification" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                            <Button onClick={addCertification} text="Add Certification" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
                         )}
                     </div>
 
@@ -383,12 +401,18 @@ const UserProfile = () => {
                                     className={styles.input}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removePublication(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removePublication(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}
                         {isEditing && (
-                            <Button onClick={addPublication} text="Add Publication" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                            <Button onClick={addPublication} text="Add Publication" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
                         )}
                     </div>
 
@@ -405,12 +429,18 @@ const UserProfile = () => {
                                     className={styles.input}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removeSkill(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeSkill(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}
                         {isEditing && (
-                            <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500"/>
+                            <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
                         )}
                     </div>
 
@@ -443,7 +473,13 @@ const UserProfile = () => {
                                     className={styles.input}
                                 />
                                 {isEditing && (
-                                    <Button onClick={() => removeProject(index)} text="x" bgColor="bg-red-900" hoverColor="hover:bg-red-600" sizeY='24'/>
+                                    <button
+                                        type="button"
+                                        onClick={() => removeProject(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
                                 )}
                             </div>
                         ))}

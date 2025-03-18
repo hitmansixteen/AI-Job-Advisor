@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
 export default function Demo() {
-  
   const router = useRouter();
   const { data: session } = useSession();
   const [job, setJob] = useState(null);
@@ -22,14 +21,13 @@ export default function Demo() {
     linkedIn: "",
     github: "",
   });
-  const [resumeArray, setResumeArray] = useState([]);
+  const [resumeData, setResumeData] = useState(null); // Use an object instead of an array
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   // Fetch job details from the router query
   useEffect(() => {
     if (router.isReady) {
-      // Parse the `job` query parameter back into an object
       const jobQuery = router.query.job;
       if (jobQuery) {
         setJob(JSON.parse(jobQuery));
@@ -60,7 +58,7 @@ export default function Demo() {
         })
         .catch((error) => console.error("Error fetching user data:", error));
     }
-  }, []);
+  }, [session]);
 
   // Generate the tailored resume
   const generateResume = async () => {
@@ -80,14 +78,8 @@ export default function Demo() {
         const jsonResponse = await response.json(); // Parse JSON response
         console.log("Tailored Resume JSON:", jsonResponse); // Log JSON response to console
 
-        // Convert JSON object to an array of key-value pairs
-        const jsonArray = Object.entries(jsonResponse);
-
-        // Log the array to verify the conversion
-        console.log("Tailored Resume Array:", jsonArray);
-
-        // Set the array in state
-        setResumeArray(jsonArray);
+        // Set the object directly in state
+        setResumeData(jsonResponse);
       } else {
         const errorData = await response.json();
         setError(errorData.error || "Failed to generate the resume.");
@@ -102,21 +94,17 @@ export default function Demo() {
 
   // Call generateResume only once when job and formData.name are ready
   useEffect(() => {
-    if (resumeArray.length === 0 && job && formData.name) {
-       generateResume();
+    if (job && formData.name && !resumeData) {
+      generateResume();
     }
-  }, [job, formData.name]); // Add job and formData.name as dependencies
+  }, [job, formData.name, resumeData]); // Add job, formData.name, and resumeData as dependencies
 
   if (!job) {
     return <div>Loading job details...</div>; // Or any loading state
   }
 
   if (loading) {
-    return (
-      <div>
-        Generating resume...
-      </div>
-    );
+    return <div>Generating resume...</div>;
   }
 
   if (error) {
@@ -125,10 +113,10 @@ export default function Demo() {
 
   return (
     <div>
-      {resumeArray.length !== 0 && (
-        // Display ResumeTemplate when resumeArray is not empty
+      {resumeData && (
+        // Display ResumeTemplate when resumeData is available
         <div style={{ marginTop: "30px" }}>
-          <ResumeTemplate user={resumeArray} />
+          <ResumeTemplate user={resumeData} />
         </div>
       )}
     </div>

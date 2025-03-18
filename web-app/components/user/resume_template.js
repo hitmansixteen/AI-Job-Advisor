@@ -93,10 +93,10 @@ const ResumeTemplate = ({ user }) => {
           {user.projects.map((project, index) => (
             <div key={index} style={{ marginBottom: "15px" }}>
               <p style={{ margin: "0", fontSize: "18px", fontWeight: "500", color: "#444" }}>
-                <strong>{project.title}</strong>: {project.description}
+                <strong>{project.title}</strong>: <em>{project.technologies}</em>
               </p>
-              <p style={{ margin: "0", fontSize: "16px", color: "#666" }}>
-                <em>Technologies: {project.technologies}</em>
+              <p style={{ margin: "0", fontSize: "14px", color: "#666" }}>
+                  {project.description}
               </p>
             </div>
           ))}
@@ -107,9 +107,9 @@ const ResumeTemplate = ({ user }) => {
       {user.skills?.length > 0 && (
         <div style={{ marginBottom: "20px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: "600", color: "#333", marginBottom: "10px", borderBottom: "1px solid #ddd", paddingBottom: "5px" }}>Skills</h2>
-          <ul style={{ listStyleType: "disc", paddingLeft: "20px" }}>
+          <ul style={{ listStyleType: "none", paddingLeft: "0", display: "flex", gap: "10px" }}>
             {user.skills.map((skill, index) => (
-              <p key={index} style={{ fontSize: "16px", color: "#666", marginBottom: "5px" }}>{skill}  </p>
+              <p key={index} style={{ fontSize: "16px", color: "#666", marginBottom: "5px" }}>{skill}</p>
             ))}
           </ul>
         </div>
