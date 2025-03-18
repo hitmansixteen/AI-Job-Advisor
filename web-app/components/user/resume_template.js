@@ -13,7 +13,7 @@ const ResumeTemplate = ({ user }) => {
   if (!user) return <p>User data is unavailable.</p>;
 
   return (
-    <div style={{ minHeight: "1200px", maxWidth: "800px", margin: "auto", padding: "20px", fontFamily: "'Times New Roman', Times, serif", lineHeight: "1.6", backgroundColor: "#f9f9f9", border: "1px solid #ddd", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
+    <div style={{ minHeight: "1100px", maxWidth: "900px", margin: "auto", padding: "30px", fontFamily: "'Times New Roman', Times, serif", lineHeight: "1.6", backgroundColor: "#f9f9f9", border: "1px solid #ddd", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
       {/* Header */}
       <div style={{ textAlign: "center", marginBottom: "30px", borderBottom: "2px solid #333", paddingBottom: "10px" }}>
         {user.name && <h1 style={{ margin: "0", fontSize: "32px", fontWeight: "bold", color: "#333" }}>{user.name}</h1>}
@@ -28,7 +28,7 @@ const ResumeTemplate = ({ user }) => {
       {user.summary?.length > 0 && (
         <div style={{ marginBottom: "20px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: "600", color: "#333", marginBottom: "10px", borderBottom: "1px solid #ddd", paddingBottom: "5px" }}>Summary</h2>
-          <p style={{ margin: "0", fontSize: "18px", fontWeight: "500", color: "#444" }}>{user.summary}</p>
+          <p style={{ margin: "0", fontSize: "16px", fontWeight: "500", color: "#333" }}>{user.summary}</p>
         </div>
       )}
 
