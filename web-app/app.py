@@ -2,9 +2,11 @@ from flask import Flask, request, jsonify
 from Backend.lda_score import calculate_similarity_using_lda
 from Backend.word2vec import calculate_similarity_using_word2vec
 from Backend.CustomizeCV import customize_resume
+from Backend.ranking import rank_cvs
 from PyPDF2 import PdfReader
 from flask_cors import CORS
 import os
+import json
 
 app = Flask(__name__)
 CORS(app)
@@ -57,6 +59,31 @@ def calculate_similarity_endpoint():
     os.remove(file_path)
 
     return jsonify({"similarity_score": similarity, "cv": cv})
+
+@app.route('/api/calculate_rank', methods=['POST'])
+def calculate_rank():
+    """
+    API endpoint to calculate similarity scores for a list of CVs.
+    """
+    try:
+        # Get JSON data from the request
+        data = request.get_json()
+        # Validate input
+
+        cvs = data.get('cvs', [])
+        job_description = data.get('job_description', '')
+
+        # Calculate similarity scores
+        scores = rank_cvs(cvs, job_description)
+
+
+        # Return the scores as JSON
+        return jsonify({"scores": scores}), 200
+
+    except Exception as e:
+        # Handle any unexpected errors
+        return jsonify({"error": f"An error occurred: {str(e)}"}), 500
+    
 
 
 @app.route('/api/customize_resume_using_similarity_score', methods=['POST'])

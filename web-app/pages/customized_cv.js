@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import ResumeTemplate from "../components/user/resume_template";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import styles from "@/styles/LandingPage.module.css";
 
 export default function Demo() {
   const router = useRouter();
@@ -66,7 +67,7 @@ export default function Demo() {
     setError("");
 
     try {
-      const response = await fetch("/api/resume", {
+      const response = await fetch("/api/CV/resume", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -75,7 +76,9 @@ export default function Demo() {
       });
 
       if (response.ok) {
+        
         const jsonResponse = await response.json(); // Parse JSON response
+       
         console.log("Tailored Resume JSON:", jsonResponse); // Log JSON response to console
 
         // Set the object directly in state
@@ -96,6 +99,7 @@ export default function Demo() {
   useEffect(() => {
     if (job && formData.name && !resumeData) {
       generateResume();
+      console.log("done")
     }
   }, [job, formData.name, resumeData]); // Add job, formData.name, and resumeData as dependencies
 
@@ -114,8 +118,12 @@ export default function Demo() {
   return (
     <div>
       {resumeData && (
+        
         // Display ResumeTemplate when resumeData is available
         <div style={{ marginTop: "30px" }}>
+          <div className={styles.header}>
+          <h1 className={styles.title}>{job.name}</h1>
+          </div>
           <ResumeTemplate user={resumeData} />
         </div>
       )}

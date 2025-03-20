@@ -11,6 +11,7 @@ const formatDate = (dateString) => {
 
 const ResumeTemplate = ({ user }) => {
   if (!user) return <p>User data is unavailable.</p>;
+  console.log(user);
 
   return (
     <div style={{ minHeight: "1100px", maxWidth: "900px", margin: "auto", padding: "30px", fontFamily: "'Times New Roman', Times, serif", lineHeight: "1.6", backgroundColor: "#f9f9f9", border: "1px solid #ddd", boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)" }}>
@@ -36,14 +37,16 @@ const ResumeTemplate = ({ user }) => {
       {user.education?.length > 0 && (
         <div style={{ marginBottom: "20px" }}>
           <h2 style={{ fontSize: "24px", fontWeight: "600", color: "#333", marginBottom: "10px", borderBottom: "1px solid #ddd", paddingBottom: "5px" }}>Education</h2>
-          {user.education.map((edu, index) => (
-            <div key={index} style={{ marginBottom: "15px" }}>
-              <p style={{ margin: "0", fontSize: "18px", fontWeight: "500", color: "#444" }}>{edu.degreeTitle}</p>
-              <p style={{ margin: "0", fontSize: "16px", color: "#666" }}>
-                {edu.institute} ({formatDate(edu.startDate)} - {formatDate(edu.endDate)})
-              </p>
-            </div>
-          ))}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "30px" }}>
+            {user.education.map((edu, index) => (
+              <div key={index} style={{ marginBottom: "15px" }}>
+                <p style={{ margin: "0", fontSize: "18px", fontWeight: "500", color: "#444" }}>{edu.degreeTitle}</p>
+                <p style={{ margin: "0", fontSize: "16px", color: "#666" }}>
+                  {edu.institute} ({formatDate(edu.startDate)} - {formatDate(edu.endDate)})
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 

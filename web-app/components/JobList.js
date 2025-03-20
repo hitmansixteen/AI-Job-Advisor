@@ -40,7 +40,7 @@ const JobList = ({ jobs }) => {
                     })
                   }
                 >
-                  Customize Resume
+                  Customize CV & Cover Letter
                 </button>
                 <button
                   className={styles.customButton}
@@ -51,7 +51,7 @@ const JobList = ({ jobs }) => {
                   }
                   disabled={similarityTab}
                 >
-                  Similarity Score
+                  Generate Similarity Score & Ranking
                 </button>
               </>
             )}
