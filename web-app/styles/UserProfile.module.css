@@ -1,59 +1,137 @@
-/* styles/UserProfile.module.css */
+/* components/UserProfile.module.css */
+
 .container {
-    min-height: 100vh;
-    background-color: #f3f4f6;
-    /* Light gray */
-    padding: 2rem;
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    margin: 0 auto;
 }
 
-.heading {
-    font-size: 2rem;
-    /* 3xl */
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: #1f2937;
-    /* Gray-800 */
+.formContainer {
+    flex: 1;
+    max-width: 630px;
+    max-height: 1200px;        /* Set the maximum height */
+    overflow-y: auto;          /* Enable vertical scroll if needed */
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 12px rgba(0, 0, 0, 0.5);
+    margin-bottom: 2rem;
+    padding: 1rem;             /* Optional: improves readability */
 }
 
-.welcome {
-    font-size: 1.25rem;
-    /* xl */
-    color: #4b5563;
-    /* Gray-700 */
+.resumeContainer {
+    flex: 1;
+    background-color: #ffffff;
+    border-radius: 12px;
     margin-bottom: 2rem;
 }
 
-.email {
+.profileHeader {
+    margin: 2rem 2rem 0rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.profileTitle {
+    font-size: 2rem;
     font-weight: bold;
-    color: #2563eb;
-    /* Blue */
+    color: #1a365d;
+    margin-right: auto;
 }
 
-.recommendedJobsSection {
-    margin-top: 2rem;
+.profileForm {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 0rem 1.5rem 1.5rem 1.5rem;
 }
 
-.subheading {
-    font-size: 1.5rem;
-    /* 2xl */
+.profileSection {
+    margin-bottom: 1.5rem;
+}
+
+.profileSection label {
+    font-size: 0.9rem;
     font-weight: 600;
-    margin-bottom: 1rem;
-    color: #1f2937;
-    /* Gray-800 */
+    color: #2d3748;
+    margin-bottom: 0.5rem;
+    display: block;
 }
 
-.noJobs {
-    font-size: 1rem;
-    /* base */
-    color: #6b7280;
-    /* Gray-500 */
-    font-style: italic;
+.profileSection input,
+.profileSection textarea {
+    font-size: 0.8rem;
+    color: #4a5568;
+    padding: 0.55rem;
+    border: 1px solid #e2e8f0;
+    border-radius: 6px;
+    width: 100%;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.loading {
-    font-size: 1.5rem;
-    color: #9ca3af;
-    /* Gray-400 */
-    text-align: center;
-    margin-top: 3rem;
+.profileSection input:focus,
+.profileSection textarea:focus {
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.2);
+    outline: none;
+}
+
+.profileSection textarea {
+    resize: vertical;
+    min-height: 50px;
+}
+
+.inputGroup {
+    display: flex;
+    gap: 0.2rem;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.inputGroup input,
+.inputGroup textarea {
+    flex:1
+}
+
+.profileActions {
+    margin-top: 1.5rem;
+    text-align: right;
+}
+
+.submitButton {
+    background-color: #3182ce;
+    color: #ffffff;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:hover {
+    background-color: #2c5282;
+}
+
+.input:disabled {
+    background-color: #f7fafc;
+    cursor: not-allowed;
+}
+
+.buttonRemove {
+    background-color: #923c3c;
+    color: #ffffff;
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.buttonRemove:hover {
+    background-color: #c53030;
 }

@@ -66,9 +66,9 @@ export default function Header() {
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
-                                    onClick={() => router.push("/job/generateCv")}
+                                    onClick={() => router.push("/cover_letter")}
                                 >
-                                    Generate CV
+                                    Generate Cover Letter
                                 </button>
                             </li>
                             <li className={styles.navItem}>

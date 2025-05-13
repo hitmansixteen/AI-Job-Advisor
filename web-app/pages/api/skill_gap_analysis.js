@@ -18,15 +18,16 @@ export default async function handler(req, res) {
   }
 
   try {
+    console.log("1");
     // Get full path to Python script
     const scriptPath = path.join(process.cwd(), "python_backend", "skill_gap_analysis.py");
-
+    console.log("2");
     // Prepare the JSON string for job details
     const jobJsonString = JSON.stringify(job);
-
+    console.log("3");
     // Spawn Python process
     const pythonProcess = spawn("python", [scriptPath, userEmail, jobJsonString]);
-
+    console.log("4");
     let responseData = "";
     let errorData = "";
 
@@ -44,6 +45,7 @@ export default async function handler(req, res) {
     pythonProcess.on("close", (code) => {
       if (code === 0) {
         try {
+          console.log("5");
           const parsedOutput = JSON.parse(responseData.trim());
           console.log("Parsed Output:", parsedOutput);
           return res.status(200).json(parsedOutput);
