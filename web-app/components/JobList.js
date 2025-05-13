@@ -3,12 +3,20 @@ import styles from "@/styles/JobList.module.css";
 import { useSession } from "next-auth/react";
 import SimilarityScore from "./SimilarityScore";
 import { useRouter } from "next/router";
+import SkillGapAnalysis from "./SkillGapAnalysis";
 
 const JobList = ({ jobs }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const [similarityTab, setSimilarityTab] = useState(false);
   const [jobData, setJobData] = useState("");
+  const [skillGapTab, setSkillGapTab] = useState(false);
+  const [skillGapJob, setSkillGapJob] = useState(null);
+
+  const skill_gap_analysis = (job_data) => {
+    setSkillGapJob(job_data);
+    setSkillGapTab(true);
+  };
 
   const similarity_score_clicked = (job_data) => {
     setJobData(job_data);
@@ -53,6 +61,12 @@ const JobList = ({ jobs }) => {
                 >
                   Similarity Score
                 </button>
+                <button
+                  className={styles.customButton}
+                  onClick={() => skill_gap_analysis(job)}
+                >
+                  Skill Gap Analysis
+                </button>
               </>
             )}
           </div>
@@ -62,6 +76,14 @@ const JobList = ({ jobs }) => {
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
             <SimilarityScore job={jobData} setSimilarityTab={setSimilarityTab} />
+          </div>
+        </div>
+      )}
+
+      {skillGapTab && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <SkillGapAnalysis job={skillGapJob} setSkillGapTab={setSkillGapTab} />
           </div>
         </div>
       )}

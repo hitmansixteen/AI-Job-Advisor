@@ -33,7 +33,7 @@ def analyze_skill_gap(user_profile, job_details):
     Please:
     1. List the skill gaps (skills required but not present in the user profile).
     2. For each gap, recommend:
-       - One or two online courses.
+       - One or two online courses(with their links).
        - A project idea to practice the skill.
        - An internship type to apply for.
 
