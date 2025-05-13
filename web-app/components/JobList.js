@@ -48,7 +48,18 @@ const JobList = ({ jobs }) => {
                     })
                   }
                 >
-                  Customize CV & Cover Letter
+                  Customize CV
+                </button>
+                <button
+                  className={styles.customButton}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/cover_letter",
+                      query: { job: JSON.stringify(job) }, // Convert object to string
+                    })
+                  }
+                >
+                  Customize Cover Letter
                 </button>
                 <button
                   className={styles.customButton}

@@ -109,7 +109,7 @@ const ResumeTemplate = ({ user }) => {
 
   return (
     <div>
-    <div style={{ position: "relative", border: "1px solid #ddd"}} ref={resumeRef}>
+    <div style={{ position: "relative", border: "1px solid #ddd", maxWidth: "850px", align: "center", margin: "auto"}} ref={resumeRef}>
       {/* Print-specific styles */}
       <style>
         {`
@@ -143,7 +143,7 @@ const ResumeTemplate = ({ user }) => {
         id="resume-content"
         style={{ 
           minHeight: "1082px", 
-          maxWidth: "1000px", 
+          maxWidth: "900px", 
           margin: "auto", 
           padding: "42px", 
           fontFamily: "'Times New Roman', Times, serif", 
