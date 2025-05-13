@@ -61,7 +61,7 @@ def create_query_from_profile(user_profile):
 import google.generativeai as genai
 
 # Configure Gemini API
-GENAI_API_KEY = "AIzaSyBa2Xy7rLUiDXTr1w6VuWhPMR-lYH6GYYI"  # 🔹 Replace with your actual API key
+GENAI_API_KEY = "AIzaSyBAi53P9imOY4P0BCGN4G6XczBKVrJcBp8"  # 🔹 Replace with your actual API key
 genai.configure(api_key=GENAI_API_KEY)
 
 def refine_with_gemini(user_profile, retrieved_jobs):
