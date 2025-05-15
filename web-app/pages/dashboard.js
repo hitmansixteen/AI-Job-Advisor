@@ -33,7 +33,8 @@ export default function UserDashboard() {
                 throw new Error('Failed to fetch your CVs');
             }
             const { cvs: userCvs } = await response.json();
-            setCvs(userCvs);
+            const reversedCVs = [...userCvs].reverse(); 
+            setCvs(reversedCVs);
             
         } catch (error) {
             console.error("Error fetching data:", error);
@@ -47,7 +48,7 @@ export default function UserDashboard() {
         if (confirm('Are you sure you want to delete this CV? This action cannot be undone.')) {
             const email = session.user.email;
             try {
-                await fetch('/api/delete-cv', {
+                await fetch('/api/CV/delete-cv', {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
@@ -62,6 +63,25 @@ export default function UserDashboard() {
             }
         }
     };
+
+    const handleEditCV = async (id) => {
+        try {
+            const res = await fetch(`/api/getJobFromJobID?jobId=${id}`);
+            const data = await res.json();
+
+            if (res.ok && data.job?._id) {
+            router.push({
+                pathname: "/customized_cv",
+                query: { job: JSON.stringify(data.job) },
+            })
+            } else {
+            console.error('Failed to retrieve job data:', data.error || data);
+            }
+        } catch (error) {
+            console.error('Error editing CV:', error);
+        }
+    };
+
 
     if (status === "loading" || loading) {
         return (
@@ -168,7 +188,7 @@ export default function UserDashboard() {
                         <div className="flex justify-between items-center p-4 border-b">
                             <h2 className="text-xl font-semibold">Your CVs ({cvs.length})</h2>
                             <button 
-                                onClick={() => router.push('/cv/new')}
+                                onClick={() => router.push('/job/allJobs')}
                                 className="flex items-center bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
                             >
                                 <FaPlus className="mr-2" />
@@ -193,9 +213,8 @@ export default function UserDashboard() {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Last Updated</th>
-                                            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            <th className="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
@@ -203,18 +222,15 @@ export default function UserDashboard() {
                                             <tr key={cv._id}>
                                                 <td className="px-6 py-4 whitespace-nowrap">
                                                     <a 
-                                                        onClick={() => router.push(`/cv/edit/${cv._id}`)}
+                                                        onClick={() => handleEditCV(cv.job_id)}
                                                         className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
                                                     >
                                                         {cv.title}
                                                     </a>
                                                 </td>
                                                 <td className="px-6 py-4 whitespace-nowrap">
-                                                    {new Date(cv.updatedAt).toLocaleDateString()}
-                                                </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
                                                     <button
-                                                        onClick={() => handleDeleteCV(cv._id)}
+                                                        onClick={() => handleDeleteCV(cv.job_id)}
                                                         className="flex items-center text-red-600 hover:text-red-800"
                                                     >
                                                         <FaTrash className="mr-1" />

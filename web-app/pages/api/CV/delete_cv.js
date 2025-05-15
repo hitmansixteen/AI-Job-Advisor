@@ -16,13 +16,18 @@ export default async function handler(req, res) {
     await connectDB();
 
     // Verify the CV belongs to the user before deleting
-    const cvToDelete = await resumes.findOne({ _id: cvId, email });
+    const cvToDelete = await resumes.findOne({ job_id: cvId, email });
 
     if (!cvToDelete) {
       return res.status(404).json({ error: 'CV not found or unauthorized' });
     }
 
-    const deletedCV = await resumes.findByIdAndDelete(cvId);
+    console.log(1)
+
+    // Delete using the job_id and email combination
+    const deletedCV = await resumes.findOneAndDelete({ job_id: cvId, email });
+
+    console.log(2)
 
     if (!deletedCV) {
       return res.status(404).json({ error: 'CV not found' });

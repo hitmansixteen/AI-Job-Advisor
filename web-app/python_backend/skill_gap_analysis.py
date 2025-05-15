@@ -49,7 +49,7 @@ def analyze_skill_gap(user_profile, job_details):
     """
 
     try:
-        model = genai.GenerativeModel("gemini-2.0-flash")
+        model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(prompt)
 
         match = re.search(r"\[.*\]", response.text, re.DOTALL)
