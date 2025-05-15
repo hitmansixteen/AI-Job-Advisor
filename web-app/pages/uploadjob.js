@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/JobList.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -17,6 +17,13 @@ export default function UploadJob() {
 
     const router = useRouter();
     const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
+
 
     const handleUpload = () => {
         if (!selectedFile) {

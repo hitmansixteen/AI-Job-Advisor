@@ -6,7 +6,7 @@ import styles from "@/styles/LandingPage.module.css";
 
 export default function Demo() {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [job, setJob] = useState(null);
   const [formData, setFormData] = useState({
     name: "",
@@ -25,6 +25,12 @@ export default function Demo() {
   const [resumeData, setResumeData] = useState(null); // Use an object instead of an array
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
 
   // Fetch job details from the router query
   useEffect(() => {

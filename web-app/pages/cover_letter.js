@@ -3,7 +3,7 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const CustomizedCoverLetter = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const [user, setUser] = useState(null);
   const [coverLetter, setCoverLetter] = useState('');
@@ -19,6 +19,12 @@ const CustomizedCoverLetter = () => {
   const letterRef = useRef(null);
   const [job, setJob] = useState(null);
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
+  
   useEffect(() => {
     const fetchJobData = () => {
       if (router.query.job) {
