@@ -42,21 +42,46 @@ const CustomizedCoverLetter = () => {
     fetchJobData();
   }, [router.query.job]);
 
+
   useEffect(() => {
-    if (session && !loading) {
-      fetch(`/api/getUser/${session.user.email}`)
-        .then((response) => {
-          if (!response.ok) throw new Error('Network response was not ok');
-          return response.json();
-        })
-        .then((data) => {
-          setUser(data);
-          const generatedCoverLetter = generateCoverLetter(data);
-          setCoverLetter(generatedCoverLetter);
-        })
-        .catch((error) => console.error('Error fetching user data:', error));
+  const generateCoverLetterFromAPI = async (userData, jobData) => {
+    try {
+      const response = await fetch('/api/coverletter', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ user: userData, job: jobData }),
+      });
+
+      if (!response.ok) throw new Error('Failed to generate cover letter');
+
+      const data = await response.json();
+      setCoverLetter(data.coverLetter);
+    } catch (error) {
+      console.error('API Error:', error);
     }
-  }, [session, loading]);
+  };
+
+  if (session && !loading) {
+    fetch(`/api/getUser/${session.user.email}`)
+      .then((response) => {
+        if (!response.ok) throw new Error('Network response was not ok');
+        return response.json();
+      })
+      .then((userData) => {
+        setUser(userData);
+        if (job) {
+          generateCoverLetterFromAPI(userData, job);
+        } else {
+          const generated = generateCoverLetter(userData);
+          setCoverLetter(generated);
+        }
+      })
+      .catch((error) => console.error('Error fetching user data:', error));
+  }
+}, [session, loading, job]);
+
 
   const generateCoverLetter = (userData) => {
     const name = userData?.name ?? "Your Name";
