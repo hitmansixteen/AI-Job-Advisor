@@ -68,6 +68,14 @@ export default function Header() {
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
+                                    onClick={() => router.push("/uploadjob")}
+                                >
+                                    Upload Job
+                                </button>
+                            </li>
+                            <li className={styles.navItem}>
+                                <button
+                                    className={styles.customButton}
                                     onClick={() => router.push("/cover_letter")}
                                 >
                                     Generate Cover Letter
