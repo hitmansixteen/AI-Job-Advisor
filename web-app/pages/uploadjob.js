@@ -4,6 +4,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import SimilarityScore from "@/components/SimilarityScore";
 import SkillGapAnalysis from "@/components/SkillGapAnalysis";
+import Button from "@/components/utils/Button";
 
 export default function UploadJob() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -12,6 +13,7 @@ export default function UploadJob() {
     const [jobDataForSimilarity, setJobDataForSimilarity] = useState("");
     const [skillGapTab, setSkillGapTab] = useState(false);
     const [skillGapJob, setSkillGapJob] = useState(null);
+    const [parsedJob, setParsedJob] = useState(null);
 
     const router = useRouter();
     const { data: session, status } = useSession();
@@ -46,7 +48,9 @@ export default function UploadJob() {
                     const result = await res.json();
 
                     if (res.ok) {
-                        console.log("Job parsed and saved:", result.job);
+                        console.log("Job parsed and saved:", result);
+                        setParsedJob(result.job);
+
                     } else {
                         console.error("Failed to parse job:", result.error);
                         alert("Error parsing job: " + result.error);
@@ -224,51 +228,51 @@ export default function UploadJob() {
                         <div className={styles.buttons + " mt-8 pt-6 border-t border-gray-200"}>
                             {status === "authenticated" && (
                                 <>
-                                    <button
-                                        className={styles.customButton}
+                                    <Button
+                                        text="Customize Resume"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() =>
-                                            router.push({
-                                                pathname: "/customized_cv",
-                                                query: {
-                                                    job: JSON.stringify(formattedJob),
-                                                },
-                                            })
+                                        router.push({
+                                            pathname: "/customized_cv",
+                                            query: { job: JSON.stringify(parsedJob) },
+                                        })
                                         }
-                                    >
-                                        Customize CV
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
+                                    />
+                                    <Button
+                                        text="Customize Cover Letter"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() =>
-                                            router.push({
-                                                pathname: "/cover_letter",
-                                                query: {
-                                                    job: JSON.stringify(formattedJob),
-                                                },
-                                            })
+                                        router.push({
+                                            pathname: "/cover_letter",
+                                            query: { job: JSON.stringify(parsedJob) },
+                                        })
                                         }
-                                    >
-                                        Customize Cover Letter
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
+                                    />
+                                    <Button
+                                        text="Similarity Score"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() =>
-                                            similarity_score_clicked(
-                                                formattedJob.description +
-                                                    " Required Skills: " +
-                                                    (formattedJob.requiredSkills.join(", ") || "")
-                                            )
+                                        similarity_score_clicked(
+                                            parsedJob?.details +
+                                            " Required Skills: " +
+                                            parsedJob?.requiredSkills.join(", ")
+                                        )
                                         }
                                         disabled={similarityTab}
-                                    >
-                                        Generate Similarity Score & Ranking
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
+                                    />
+                                    <Button
+                                        text="Skill Gap Analysis"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() => skill_gap_analysis(formattedJob)}
-                                    >
-                                        Skill Gap Analysis
-                                    </button>
+                                    />
                                 </>
                             )}
                         </div>

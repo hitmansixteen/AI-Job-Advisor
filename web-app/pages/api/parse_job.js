@@ -120,11 +120,20 @@ const details = formatJobDetails(rawJob);
         companyName: rawJob.company?.name || "Unknown",
       });
 
-      const jobs = await Job.find().sort({ createdAt: -1 }).limit(10);
+      return res.status(201).json({
+      success: true,
+      message: "Job successfully parsed and saved",
+      job: {
+        name: newJob.name,
+        description: newJob.description,
+        requiredSkills: newJob.requiredSkills,
+        location: newJob.location,
+        link: newJob.link,
+        details: newJob.details,
+        companyName: newJob.companyName,
+      }
+    });
 
-    
-
-    return res.status(201).json({ job: newJob, message: "Job parsed and saved." });
   } catch (err) {
     console.error("Error saving job:", err);
     return res.status(500).json({ error: "Server error while saving job." });
