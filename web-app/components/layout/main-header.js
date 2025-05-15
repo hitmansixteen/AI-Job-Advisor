@@ -42,6 +42,14 @@ export default function Header() {
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
+                                    onClick={() => router.push("/dashboard")}
+                                >
+                                    Dashboard
+                                </button>
+                            </li>
+                            <li className={styles.navItem}>
+                                <button
+                                    className={styles.customButton}
                                     onClick={() => router.push("/user/profile")}
                                 >
                                     Profile

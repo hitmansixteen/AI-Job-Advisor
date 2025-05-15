@@ -114,7 +114,7 @@ const styles = {
     padding: "20px",
     borderRadius: "8px",
     maxWidth: "600px",
-    maxHeight: "80vh", // Set a max height for the container to prevent overflow
+    maxHeight: "95vh", // Set a max height for the container to prevent overflow
     overflowY: "auto",  // Enable scrolling if the content overflows
     margin: "0 auto",
     boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
