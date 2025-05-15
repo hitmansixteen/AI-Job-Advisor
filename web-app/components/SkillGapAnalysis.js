@@ -40,7 +40,7 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
     };
 
     fetchSkillGap();
-  }, [job, session]);
+  }, [job]);
 
   if (loading) {
     return <p>Loading analysis...</p>;
@@ -64,9 +64,17 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
                 <div>
                   <h4>Recommended Courses</h4>
                   <ul style={styles.list}>
-                    {item.courses.map((course, idx) => (
-                      <li key={idx} style={styles.listItem}>{course}</li>
-                    ))}
+                    {item.courses.map((course, idx) => {
+                      const matchedUrl = course.match(/\[?(https?:\/\/[^\s\]]+)\]?/i)?.[1] || "#";
+
+                      return (
+                        <li key={idx} style={styles.listItem}>
+                          <a href={matchedUrl} target="_blank" rel="noopener noreferrer">
+                            {course}
+                          </a>
+                        </li>
+                      );
+                    })}                                 
                   </ul>
                 </div>
               )}
