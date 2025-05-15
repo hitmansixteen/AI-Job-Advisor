@@ -7,13 +7,8 @@ import styles from "@/styles/UserProfile.module.css";
 export default function UserProfile() {
   const { data: session, status } = useSession();
   const router = useRouter();
-  const [filters, setFilters] = useState({
-    skills: true,
-    location: false,
-  });
-  const [recommendedJobsBySkills, setRecommendedJobsBySkills] = useState([]);
-  const [recommendedJobsByLocation, setRecommendedJobsByLocation] = useState([]);
-  const [filteredJobs, setFilteredJobs] = useState([]);
+  const [recommendedJobs, setRecommendedJobs] = useState([]);
+  const [loading, setLoading] = useState(true); // 🔹 Added loading state
 
   useEffect(() => {
     if (status === "unauthenticated") {
@@ -27,43 +22,21 @@ export default function UserProfile() {
     }
   }, [session]);
 
-  useEffect(() => {
-    if (filters.skills && filters.location) {
-      const intersection = recommendedJobsBySkills.filter(job =>
-        recommendedJobsByLocation.some(locJob => locJob._id === job._id)
-      );
-      setFilteredJobs(intersection);
-    } else if (filters.skills) {
-      setFilteredJobs(recommendedJobsBySkills);
-    } else if (filters.location) {
-      setFilteredJobs(recommendedJobsByLocation);
-    } else {
-      setFilteredJobs([]);
-    }
-  }, [filters, recommendedJobsBySkills, recommendedJobsByLocation]);
-
   const fetchRecommendedJobs = async () => {
+    console.log("Fetching recommended jobs...");
     try {
+      setLoading(true); // 🔹 Show loading message while fetching
+
       const email = session.user.email;
+      const res = await fetch(`/api/job_recommendation?email=${email}`);
+      const jobs = await res.json();
 
-      const [skillsRes, locationRes] = await Promise.all([
-        fetch(`/api/matchSkills/${email}`),
-        fetch(`/api/matchLocation/${email}`)
-      ]);
-
-      const skillsJobs = await skillsRes.json();
-      const locationJobs = await locationRes.json();
-
-      setRecommendedJobsBySkills(skillsJobs);
-      setRecommendedJobsByLocation(locationJobs);
-      setFilteredJobs(skillsJobs); 
+      setRecommendedJobs(jobs);
     } catch (error) {
       console.error("Error fetching recommended jobs:", error);
+    } finally {
+      setLoading(false); // 🔹 Hide loading message after fetching
     }
-  };
-
-  const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.checked });
   };
 
   if (status === "loading") {
@@ -72,33 +45,18 @@ export default function UserProfile() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.filters}>
-        <label className={styles.filterLabel}>
-          <input
-            type="checkbox"
-            name="skills"
-            checked={filters.skills}
-            onChange={handleFilterChange}
-          />
-          Recommended by Skills
-        </label>
-        <label className={styles.filterLabel}>
-          <input
-            type="checkbox"
-            name="location"
-            checked={filters.location}
-            onChange={handleFilterChange}
-          />
-          Recommended by Location
-        </label>
-      </div>
-
       <div className={styles.recommendedJobsSection}>
         <h2 className={styles.subheading}>Recommended Jobs</h2>
-        {filteredJobs.length > 0 ? (
-          <JobList jobs={filteredJobs} />
+        
+        {loading ? ( 
+          // 🔹 Show this while waiting for API response
+          <p className={styles.loadingMessage}>
+            Please wait while we analyze your skill set...
+          </p>
+        ) : recommendedJobs.length > 0 ? (
+          <JobList jobs={recommendedJobs} />
         ) : (
-          <p className={styles.noJobs}>No recommended jobs found for your criteria.</p>
+          <p className={styles.noJobs}>No recommended jobs found.</p>
         )}
       </div>
     </div>

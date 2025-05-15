@@ -21,7 +21,7 @@ export default function UserProfile() {
 
     return (
         <div>
-            <Userprofile/>
+            <Userprofile/>  
             <div className="flex justify-center mb-16 mt-8">
                 <button
                     onClick={() => router.push("/user/chngpasspage")}
@@ -29,7 +29,7 @@ export default function UserProfile() {
                 >
                     Change Password
                 </button>
-            </div>
+            </div>          
         </div> 
     );
 }

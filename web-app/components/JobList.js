@@ -1,18 +1,27 @@
 import React, { useState } from "react";
 import styles from "@/styles/JobList.module.css";
-import Button from "./utils/Button";
 import { useSession } from "next-auth/react";
 import SimilarityScore from "./SimilarityScore";
+import { useRouter } from "next/router";
+import SkillGapAnalysis from "./SkillGapAnalysis";
 
 const JobList = ({ jobs }) => {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [similarityTab, setSimilarityTab] = useState(false);
   const [jobData, setJobData] = useState("");
+  const [skillGapTab, setSkillGapTab] = useState(false);
+  const [skillGapJob, setSkillGapJob] = useState(null);
+
+  const skill_gap_analysis = (job_data) => {
+    setSkillGapJob(job_data);
+    setSkillGapTab(true);
+  };
 
   const similarity_score_clicked = (job_data) => {
-    setJobData(job_data)
+    setJobData(job_data);
     setSimilarityTab(true);
-  }
+  };
 
   return (
     <div className={styles.grid}>
@@ -26,57 +35,69 @@ const JobList = ({ jobs }) => {
           <p className={styles.cardSkills}>
             <strong>Required Skills:</strong> {job.requiredSkills.join(", ")}
           </p>
-          <div className = {styles.buttons}>
+          {job.reason && <p className={styles.cardReason}>{job.reason}</p>}
+          <div className={styles.buttons}>
             {status === "authenticated" && (
               <>
-                <Button
-                text="Customize Resume"
-                bgColor="bg-buttons"
-                hoverColor="hover:bg-gray-600"
-                sizeY = "2"
-                onClick={() => alert("Application submitted!")}
-                />
-
-                <Button
-                  text="Similarity Score"
-                  bgColor="bg-buttons"
-                  hoverColor="hover:bg-gray-600"
-                  sizeY = "2"
-                  onClick={() => similarity_score_clicked(job.description + " Required Skills: " + job.requiredSkills.join(', '))}
+                <button
+                  className={styles.customButton}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/customized_cv",
+                      query: { job: JSON.stringify(job) }, // Convert object to string
+                    })
+                  }
+                >
+                  Customize CV
+                </button>
+                <button
+                  className={styles.customButton}
+                  onClick={() =>
+                    router.push({
+                      pathname: "/cover_letter",
+                      query: { job: JSON.stringify(job) }, // Convert object to string
+                    })
+                  }
+                >
+                  Customize Cover Letter
+                </button>
+                <button
+                  className={styles.customButton}
+                  onClick={() =>
+                    similarity_score_clicked(
+                      job.description + " Required Skills: " + job.requiredSkills.join(", ")
+                    )
+                  }
                   disabled={similarityTab}
-                />
+                >
+                  Generate Similarity Score & Ranking
+                </button>
+                <button
+                  className={styles.customButton}
+                  onClick={() => skill_gap_analysis(job)}
+                >
+                  Skill Gap Analysis
+                </button>
               </>
             )}
           </div>
         </div>
       ))}
       {similarityTab && (
-               <div
-                   style={{
-                       position: "fixed",
-                       top: 0, left: 0,
-                       width: "100%",
-                       backgroundColor: "rgba(0, 0, 0, 0.5)",
-                       display: "flex",
-                       justifyContent: "center",
-                       alignItems: "center",
-                       zIndex: 1000,
-                   }}
-               >
-                   <div
-                       style={{
-                           padding: "20px",
-                           borderRadius: "10px",
-                           boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                           textAlign: "center",
-                           maxWidth: "500px",
-                           width: "90%",
-                       }}
-                   >
-                       <SimilarityScore job={jobData} setSimilarityTab = {setSimilarityTab}/>
-                   </div>
-               </div>
-           )}
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <SimilarityScore job={jobData} setSimilarityTab={setSimilarityTab} />
+          </div>
+        </div>
+      )}
+
+      {skillGapTab && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modalContent}>
+            <SkillGapAnalysis job={skillGapJob} setSkillGapTab={setSkillGapTab} />
+          </div>
+        </div>
+      )}
     </div>
   );
 };
