@@ -24,43 +24,57 @@ export default function UploadJob() {
         console.log("Uploading file:", selectedFile);
     };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         const file = event.target.files[0];
         setSelectedFile(file);
 
         if (file) {
             const reader = new FileReader();
-            reader.onload = (e) => {
+            reader.onload = async (e) => {
                 try {
                     const json = JSON.parse(e.target.result);
                     setJobData(json);
+
+                    const res = await fetch("/api/parse_job", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({ rawJob: json }),
+                    });
+
+                    const result = await res.json();
+
+                    if (res.ok) {
+                        console.log("Job parsed and saved:", result.job);
+                    } else {
+                        console.error("Failed to parse job:", result.error);
+                        alert("Error parsing job: " + result.error);
+                    }
                 } catch (error) {
                     alert("Error reading JSON file");
+                    console.error("File read error:", error);
                 }
             };
             reader.readAsText(file);
         }
     };
 
-    // Handle Similarity Score button click
     const similarity_score_clicked = (job_data) => {
         setJobDataForSimilarity(job_data);
         setSimilarityTab(true);
     };
 
-    // Handle Skill Gap Analysis button click
     const skill_gap_analysis = (job_data) => {
         setSkillGapJob(job_data);
         setSkillGapTab(true);
     };
 
-    // Format jobData to match JobList job structure for buttons
     const formattedJob = jobData
         ? {
               _id: jobData.application_details?.job_id || "uploaded-job",
               name: jobData.job_title || "Untitled Job",
-              description:
-                  jobData.role_description || "No description provided",
+              description: jobData.role_description || "No description provided",
               location: jobData.location
                   ? `${jobData.location.city}, ${jobData.location.state}, ${jobData.location.country}`
                   : "Not specified",
@@ -69,235 +83,200 @@ export default function UploadJob() {
         : null;
 
     return (
-        <div className="flex justify-center items-center min-h-screen">
-            <div className="p-4 w-full max-w-md">
-                <h1 className="text-2xl mb-4 text-center">Upload Job</h1>
+        <div className="flex flex-col items-center min-h-screen bg-gray-50 py-8 px-4">
+            {/* Upload Section */}
+            <div className="w-full max-w-md bg-white rounded-xl shadow-md p-6 mb-8">
+                <h1 className="text-2xl font-bold text-gray-800 mb-6 text-center">Upload Job Listing</h1>
                 <div className="flex flex-col gap-4">
-                    <input
-                        type="file"
-                        accept=".json"
-                        onChange={handleFileChange}
-                        className="border p-2 rounded"
-                    />
+                    <div className="flex flex-col gap-2">
+                        <label className="text-sm font-medium text-gray-700">Select JSON File</label>
+                        <input
+                            type="file"
+                            accept=".json"
+                            onChange={handleFileChange}
+                            className="block w-full text-sm text-gray-500
+                                file:mr-4 file:py-2 file:px-4
+                                file:rounded-md file:border-0
+                                file:text-sm file:font-semibold
+                                file:bg-blue-50 file:text-blue-700
+                                hover:file:bg-blue-100"
+                        />
+                    </div>
                     <button
                         onClick={handleUpload}
-                        className="bg-blue-500 text-white px-2 py-1 rounded text-sm hover:bg-blue-600 w-fit self-center"
+                        className="w-fit self-center bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-md transition duration-150 ease-in-out"
                     >
-                        Upload
+                        Process File
                     </button>
                 </div>
             </div>
+
+            {/* Job Details Display */}
             {jobData && (
-                <div className="mt-4 border p-4 rounded space-y-4 w-full md:w-3/4 mx-auto shadow-lg overflow-y-auto max-h-[80vh]">
-                    <h2 className="text-xl font-bold">{jobData.job_title}</h2>
-
-                    <div>
-                        <h3 className="font-semibold">Company</h3>
-                        <p>
-                            <strong>Name:</strong> {jobData.company.name}
-                        </p>
-                        <p>
-                            <strong>LinkedIn:</strong>{" "}
-                            <a
-                                href={jobData.company.linkedin_url}
-                                className="text-blue-600 underline"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {jobData.company.linkedin_url}
-                            </a>
-                        </p>
-                        <p>
-                            <strong>Description:</strong>{" "}
-                            {jobData.company.description}
-                        </p>
-                        <p>
-                            <strong>Size:</strong> {jobData.company.size}
-                        </p>
-                        <p>
-                            <strong>Followers:</strong>{" "}
-                            {jobData.company.followers}
-                        </p>
-                        <p>
-                            <strong>Industry:</strong>{" "}
-                            {styledIndustry(jobData.company.industry)}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Location</h3>
-                        <p>
-                            <strong>City:</strong> {jobData.location.city}
-                        </p>
-                        <p>
-                            <strong>State:</strong> {jobData.location.state}
-                        </p>
-                        <p>
-                            <strong>Country:</strong> {jobData.location.country}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Workplace Type</h3>
-                        <p>{jobData.workplace_type}</p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Job Type</h3>
-                        <p>{jobData.job_type}</p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Posting Details</h3>
-                        <p>
-                            <strong>Reposted:</strong>{" "}
-                            {jobData.posting_details.reposted}
-                        </p>
-                        <p>
-                            <strong>Applicants:</strong>{" "}
-                            {jobData.posting_details.applicants}
-                        </p>
-                        <p>
-                            <strong>Status:</strong>{" "}
-                            {jobData.posting_details.status}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Role Description</h3>
-                        <p className="whitespace-pre-wrap">
-                            {jobData.role_description}
-                        </p>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Qualifications</h3>
-                        <ul className="list-disc list-inside">
-                            {jobData.qualifications.map((q, i) => (
-                                <li key={i}>{q}</li>
-                            ))}
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h3 className="font-semibold">Hiring Team</h3>
-                        {jobData.hiring_team.map((member, i) => (
-                            <div key={i} className="mb-2">
-                                <p>
-                                    <strong>Name:</strong> {member.name}
-                                </p>
-                                <p>
-                                    <strong>Role:</strong> {member.role}
-                                </p>
-                                <p>
-                                    <strong>LinkedIn:</strong>{" "}
-                                    <a
-                                        href={member.linkedin_url}
-                                        className="text-blue-600 underline"
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                    >
-                                        {member.linkedin_url}
-                                    </a>
-                                </p>
-                                <p>
-                                    <strong>Connection Degree:</strong>{" "}
-                                    {member.connection_degree}
-                                </p>
+                <div className="w-full max-w-4xl bg-white rounded-xl shadow-lg overflow-hidden">
+                    <div className="p-6 overflow-y-auto max-h-[80vh]">
+                        {/* Job Header */}
+                        <div className="border-b border-gray-200 pb-4 mb-6">
+                            <h2 className="text-2xl font-bold text-gray-800">{jobData.job_title}</h2>
+                            <div className="flex flex-wrap gap-2 mt-2">
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    {jobData.company?.name || "Unknown Company"}
+                                </span>
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                    {jobData.workplace_type || "Unknown Workplace"}
+                                </span>
+                                <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                    {jobData.job_type || "Unknown Type"}
+                                </span>
                             </div>
-                        ))}
-                    </div>
+                        </div>
 
-                    <div>
-                        <h3 className="font-semibold">Application Details</h3>
-                        <p>
-                            <strong>Easy Apply:</strong>{" "}
-                            {jobData.application_details.easy_apply
-                                ? "Yes"
-                                : "No"}
-                        </p>
-                        <p>
-                            <strong>Job ID:</strong>{" "}
-                            {jobData.application_details.job_id}
-                        </p>
-                    </div>
+                        {/* Grid Layout for Details */}
+                        <div className="grid grid-cols-1 md:grid-cols-1 gap-6">
+                            {/* Company Section */}
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-semibold text-gray-700 mb-3">Company Information</h3>
+                                <div className="space-y-2">
+                                    <DetailItem label="Name" value={jobData.company?.name} />
+                                    <DetailItem label="LinkedIn" value={jobData.company?.linkedin_url} isLink />
+                                    <DetailItem label="Description" value={jobData.company?.description} />
+                                    <DetailItem label="Size" value={jobData.company?.size} />
+                                    <DetailItem label="Industry" value={jobData.company?.industry} />
+                                </div>
+                            </div>
 
-                    <div>
-                        <h3 className="font-semibold">Job Posting URL</h3>
-                        <a
-                            href={jobData.job_posting_url}
-                            className="text-blue-600 underline"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                        >
-                            {jobData.job_posting_url}
-                        </a>
-                    </div>
+                            {/* Location Section */}
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-semibold text-gray-700 mb-3">Location</h3>
+                                <div className="space-y-2">
+                                    <DetailItem label="City" value={jobData.location?.city} />
+                                    <DetailItem label="State" value={jobData.location?.state} />
+                                    <DetailItem label="Country" value={jobData.location?.country} />
+                                    <DetailItem label="Workplace Type" value={jobData.workplace_type} />
+                                </div>
+                            </div>
 
-                    {/* Add JobList buttons */}
-                    <div className={styles.buttons}>
-                        {status === "authenticated" && (
-                            <>
-                                <button
-                                    className={styles.customButton}
-                                    onClick={() =>
-                                        router.push({
-                                            pathname: "/customized_cv",
-                                            query: {
-                                                job: JSON.stringify(
-                                                    formattedJob
-                                                ),
-                                            },
-                                        })
-                                    }
-                                >
-                                    Customize CV
-                                </button>
-                                <button
-                                    className={styles.customButton}
-                                    onClick={() =>
-                                        router.push({
-                                            pathname: "/cover_letter",
-                                            query: {
-                                                job: JSON.stringify(
-                                                    formattedJob
-                                                ),
-                                            },
-                                        })
-                                    }
-                                >
-                                    Customize Cover Letter
-                                </button>
-                                <button
-                                    className={styles.customButton}
-                                    onClick={() =>
-                                        similarity_score_clicked(
-                                            formattedJob.description +
-                                                " Required Skills: " +
-                                                (formattedJob.requiredSkills.join(
-                                                    ", "
-                                                ) || "")
-                                        )
-                                    }
-                                    disabled={similarityTab}
-                                >
-                                    Generate Similarity Score & Ranking
-                                </button>
-                                <button
-                                    className={styles.customButton}
-                                    onClick={() =>
-                                        skill_gap_analysis(formattedJob)
-                                    }
-                                >
-                                    Skill Gap Analysis
-                                </button>
-                            </>
-                        )}
+                            {/* Posting Details */}
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-semibold text-gray-700 mb-3">Posting Details</h3>
+                                <div className="space-y-2">
+                                    <DetailItem label="Posted" value={jobData.posting_details?.reposted} />
+                                    <DetailItem label="Applicants" value={jobData.posting_details?.applicants} />
+                                    <DetailItem label="Status" value={jobData.posting_details?.status} />
+                                    <DetailItem label="Easy Apply" value={jobData.application_details?.easy_apply ? "Yes" : "No"} />
+                                    <DetailItem label="Job ID" value={jobData.application_details?.job_id} />
+                                </div>
+                            </div>
+
+                            {/* Hiring Team */}
+                            <div className="bg-gray-50 p-4 rounded-lg">
+                                <h3 className="text-lg font-semibold text-gray-700 mb-3">Hiring Team</h3>
+                                <div className="space-y-3">
+                                    {jobData.hiring_team?.length > 0 ? (
+                                        jobData.hiring_team.map((member, i) => (
+                                            <div key={i} className="border-b border-gray-100 pb-3 last:border-0">
+                                                <DetailItem label="Name" value={member.name} />
+                                                <DetailItem label="Role" value={member.role} />
+                                                <DetailItem label="LinkedIn" value={member.linkedin_url} isLink />
+                                                <DetailItem label="Connection" value={member.connection_degree} />
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <p className="text-gray-500">No hiring team information</p>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Role Description */}
+                        <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold text-gray-700 mb-3">Role Description</h3>
+                            <div className="whitespace-pre-line text-gray-700">
+                                {jobData.role_description || "No description provided"}
+                            </div>
+                        </div>
+
+                        {/* Qualifications */}
+                        <div className="mt-6 bg-gray-50 p-4 rounded-lg">
+                            <h3 className="text-lg font-semibold text-gray-700 mb-3">Qualifications</h3>
+                            <ul className="list-disc list-inside space-y-1">
+                                {jobData.qualifications?.length > 0 ? (
+                                    jobData.qualifications.map((q, i) => (
+                                        <li key={i} className="text-gray-700">{q}</li>
+                                    ))
+                                ) : (
+                                    <li className="text-gray-500">No qualifications listed</li>
+                                )}
+                            </ul>
+                        </div>
+
+                        {/* Job URL */}
+                        <div className="mt-6">
+                            <DetailItem 
+                                label="Job Posting URL" 
+                                value={jobData.job_posting_url} 
+                                isLink 
+                                className="text-blue-600 hover:text-blue-800"
+                            />
+                        </div>
+
+                        {/* Action Buttons - Unchanged */}
+                        <div className={styles.buttons + " mt-8 pt-6 border-t border-gray-200"}>
+                            {status === "authenticated" && (
+                                <>
+                                    <button
+                                        className={styles.customButton}
+                                        onClick={() =>
+                                            router.push({
+                                                pathname: "/customized_cv",
+                                                query: {
+                                                    job: JSON.stringify(formattedJob),
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Customize CV
+                                    </button>
+                                    <button
+                                        className={styles.customButton}
+                                        onClick={() =>
+                                            router.push({
+                                                pathname: "/cover_letter",
+                                                query: {
+                                                    job: JSON.stringify(formattedJob),
+                                                },
+                                            })
+                                        }
+                                    >
+                                        Customize Cover Letter
+                                    </button>
+                                    <button
+                                        className={styles.customButton}
+                                        onClick={() =>
+                                            similarity_score_clicked(
+                                                formattedJob.description +
+                                                    " Required Skills: " +
+                                                    (formattedJob.requiredSkills.join(", ") || "")
+                                            )
+                                        }
+                                        disabled={similarityTab}
+                                    >
+                                        Generate Similarity Score & Ranking
+                                    </button>
+                                    <button
+                                        className={styles.customButton}
+                                        onClick={() => skill_gap_analysis(formattedJob)}
+                                    >
+                                        Skill Gap Analysis
+                                    </button>
+                                </>
+                            )}
+                        </div>
                     </div>
                 </div>
             )}
 
-            {/* Modals for Similarity Score and Skill Gap Analysis */}
+            {/* Modals - Unchanged */}
             {similarityTab && (
                 <div className={styles.modalOverlay}>
                     <div className={styles.modalContent}>
@@ -322,9 +301,32 @@ export default function UploadJob() {
     );
 }
 
+// Helper component for consistent detail items
+function DetailItem({ label, value, isLink = false, className = "" }) {
+    if (!value) return null;
+    
+    return (
+        <div className="flex">
+            <span className="font-medium text-gray-600 w-32 flex-shrink-0">{label}:</span>
+            {isLink ? (
+                <a 
+                    href={value} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`text-blue-600 hover:underline ${className}`}
+                >
+                    {value}
+                </a>
+            ) : (
+                <span className={`text-gray-700 ${className}`}>{value}</span>
+            )}
+        </div>
+    );
+}
+
 // Helper function to style the industry field
 function styledIndustry(industry) {
-    if (industry.includes("employees")) {
+    if (industry?.includes("employees")) {
         return (
             <span className="text-red-500 italic">
                 {industry} (misclassified as industry)
