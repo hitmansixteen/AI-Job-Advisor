@@ -169,6 +169,43 @@ const observer = new MutationObserver((mutations) => {
 
             // Log the extracted data to the console
             console.log("Extracted Job Data:", jobData);
+
+            try {
+                // Convert jobData to JSON string
+                const jsonString = JSON.stringify(jobData, null, 2);
+
+                // Create a Blob with the JSON data
+                const blob = new Blob([jsonString], {
+                    type: "application/json",
+                });
+
+                // Create a temporary URL for the Blob
+                const url = window.URL.createObjectURL(blob);
+
+                // Create a temporary link element to trigger download
+                const link = document.createElement("a");
+                link.href = url;
+                // Use job_id or timestamp for unique filename
+                const fileName = `job_${
+                    jobData.application_details.job_id || Date.now()
+                }.json`;
+                link.download = fileName;
+                document.body.appendChild(link);
+                link.click();
+
+                // Clean up
+                document.body.removeChild(link);
+                window.URL.revokeObjectURL(url);
+
+                console.log(`Downloaded JSON file: ${fileName}`);
+
+                // Open localhost:3000 in a new tab
+                window.open("http://localhost:3000", "_blank");
+            } catch (error) {
+                console.error("Error downloading JSON file:", error);
+                // Optionally still open the new tab
+                window.open("http://localhost:3000", "_blank");
+            }
         });
 
         // Append the button to the container with Easy Apply and Save buttons
