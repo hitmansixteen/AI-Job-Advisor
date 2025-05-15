@@ -248,11 +248,10 @@ export default function UploadJob() {
                                         bgColor="bg-buttons"
                                         hoverColor="hover:bg-gray-600"
                                         sizeY="2"
-                                        onClick={() =>
-                                        router.push({
-                                            pathname: "/customized_cv",
-                                            query: { job: JSON.stringify(parsedJob) },
-                                        })
+                                        onClick={() => {
+                                            const jobQuery = encodeURIComponent(JSON.stringify(parsedJob));
+                                            window.open(`/customized_cv?job=${jobQuery}`, '_blank');
+                                            }
                                         }
                                     />
                                     <Button
@@ -260,12 +259,10 @@ export default function UploadJob() {
                                         bgColor="bg-buttons"
                                         hoverColor="hover:bg-gray-600"
                                         sizeY="2"
-                                        onClick={() =>
-                                        router.push({
-                                            pathname: "/cover_letter",
-                                            query: { job: JSON.stringify(parsedJob) },
-                                        })
-                                        }
+                                        onClick={() => {
+                                        const jobQuery = encodeURIComponent(JSON.stringify(parsedJob));
+                                        window.open(`/cover_letter?job=${jobQuery}`, '_blank');
+                                        }}
                                     />
                                     <Button
                                         text="Similarity Score"
