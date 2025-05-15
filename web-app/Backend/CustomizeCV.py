@@ -88,7 +88,7 @@ def customize_resume(user, job):
     combined_items = user["projects"] + user["experience"] + user["publications"]
     
     
-    target_word_count = 250
+    target_word_count = 300
     
     # Adjust the content length
     adjusted_items = adjust_content_length(combined_items, target_word_count)

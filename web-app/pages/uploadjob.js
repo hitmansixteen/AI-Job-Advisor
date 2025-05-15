@@ -23,41 +23,56 @@ export default function UploadJob() {
             alert("Please select a file first!");
             return;
         }
-        console.log("Uploading file:", selectedFile);
     };
 
     const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            try {
+                const json = JSON.parse(e.target.result);
+                setJobData(json);
+
+                const response = await fetch("/api/parse_job", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ rawJob: json }),
+                });
+
+                // First get the response text
+                const responseText = await response.text();
+                
+                // Try to parse it as JSON
+                let result;
                 try {
-                    const json = JSON.parse(e.target.result);
-                    setJobData(json);
+                    result = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error("Failed to parse response:", responseText);
+                        throw new Error("Invalid server response");
+                    }
 
-                    const res = await fetch("/api/parse_job", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ rawJob: json }),
-                    });
-
-                    const result = await res.json();
-
-                    if (res.ok) {
-                        console.log("Job parsed and saved:", result);
-                        setParsedJob(result.job);
-
+                    // Check if response was successful
+                    if (response.ok) {
+                        console.log("Full API response:", result);
+                        
+                        if (result.job) {
+                            console.log("Job parsed and saved:", result.job);
+                            setParsedJob(result.job);
+                        } else {
+                            console.warn("Job data missing in response");
+                            setParsedJob(null);
+                        }
                     } else {
-                        console.error("Failed to parse job:", result.error);
-                        alert("Error parsing job: " + result.error);
+                        throw new Error(result.error || result.message || "Failed to parse job");
                     }
                 } catch (error) {
-                    alert("Error reading JSON file");
-                    console.error("File read error:", error);
+                    console.error("Error processing job:", error);
+                    alert("Error: " + error.message);
                 }
             };
             reader.readAsText(file);

@@ -283,6 +283,7 @@ const ResumeTemplate = ({ user }) => {
             border: "none",
             cursor: "pointer",
             borderRadius: "5px",
+            marginBottom: "100px",
           }}
         >
           Download PDF

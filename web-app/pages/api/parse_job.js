@@ -20,15 +20,16 @@ export default async function handler(req, res) {
   }
 
   try {
-    // Connect to DB
-    try {
-      await connectDB();
-      const count = await Job.countDocuments({});
-      res.status(200).json({ count });
-    } catch (err) {
-      print(err.message);
+    await connectDB();
+
+    const existingJob = await Job.findOne({ link: rawJob.job_posting_url });
+    if (existingJob) {
+      return res.status(200).json({ 
+        job: existingJob, 
+        message: "Job already exists in database",
+        isDuplicate: true
+      });
     }
-    // Check for duplicate link
     
 
     // 1. Generate description
