@@ -4,21 +4,65 @@
 
 .label {
     display: block;
-    font-weight: 500;
-    color: #4a5568;
+    font-weight: 600;
+    color: #2d3748;
     margin-bottom: 0.5rem;
+    font-size: 1rem;
 }
 
 .input {
     width: 100%;
     padding: 0.75rem;
-    border: 1px solid #d2d6dc;
+    border: 1px solid #e2e8f0;
     border-radius: 0.375rem;
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
+    font-size: 0.875rem;
+    color: #4a5568;
+    background-color: #ffffff;
 }
 
 .input:focus {
     border-color: #4299e1;
-    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5);
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+.input:hover {
+    border-color: #a0aec0;
+}
+
+.input:disabled {
+    background-color: #f7fafc;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
+
+.inputError {
+    border-color: #e53e3e;
+}
+
+.inputError:focus {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.2);
+}
+
+.inputSuccess {
+    border-color: #48bb78;
+}
+
+.inputSuccess:focus {
+    border-color: #48bb78;
+    box-shadow: 0 0 0 3px rgba(72, 187, 120, 0.2);
+}
+
+.errorMessage {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #e53e3e;
+}
+
+.successMessage {
+    margin-top: 0.5rem;
+    font-size: 0.75rem;
+    color: #48bb78;
 }

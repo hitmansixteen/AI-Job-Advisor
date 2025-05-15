@@ -416,34 +416,6 @@ const UserProfile = () => {
                         )}
                     </div>
 
-                    {/* Skills */}
-                    <div className={styles.profileSection}>
-                        <label>Skills:</label>
-                        {formData.skills.map((skill, index) => (
-                            <div key={index} className={styles.inputGroup}>
-                                <input
-                                    type="text"
-                                    value={skill}
-                                    onChange={(e) => handleInputChange(e, index, "skills", "skills")}
-                                    disabled={!isEditing}
-                                    className={styles.input}
-                                />
-                                {isEditing && (
-                                    <button
-                                        type="button"
-                                        onClick={() => removeSkill(index)}
-                                        className={styles.buttonRemove}
-                                    >
-                                        Remove
-                                    </button>
-                                )}
-                            </div>
-                        ))}
-                        {isEditing && (
-                            <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
-                        )}
-                    </div>
-
                     {/* Projects */}
                     <div className={styles.profileSection}>
                         <label>Projects:</label>
@@ -513,6 +485,35 @@ const UserProfile = () => {
                             className={styles.input}
                         />
                     </div>
+
+                    {/* Skills */}
+                    <div className={styles.profileSection}>
+                        <label>Skills:</label>
+                        {formData.skills.map((skill, index) => (
+                            <div key={index} className={styles.inputGroup}>
+                                <input
+                                    type="text"
+                                    value={skill}
+                                    onChange={(e) => handleInputChange(e, index, "skills", "skills")}
+                                    disabled={!isEditing}
+                                    className={styles.input}
+                                />
+                                {isEditing && (
+                                    <button
+                                        type="button"
+                                        onClick={() => removeSkill(index)}
+                                        className={styles.buttonRemove}
+                                    >
+                                        Remove
+                                    </button>
+                                )}
+                            </div>
+                        ))}
+                        {isEditing && (
+                            <Button onClick={addSkill} text="Add Skill" bgColor="bg-gray-400" hoverColor="hover:bg-gray-500" />
+                        )}
+                    </div>
+
 
                     {isEditing && (
                         <div className={styles.profileActions}>

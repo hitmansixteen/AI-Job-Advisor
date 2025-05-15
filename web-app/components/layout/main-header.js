@@ -1,6 +1,6 @@
 import Link from "next/link";
-import styles from './main-header.module.css';
-import { useRouter } from 'next/router';
+import styles from "./main-header.module.css";
+import { useRouter } from "next/router";
 import { useSession, signOut } from "next-auth/react";
 
 export default function Header() {
@@ -11,9 +11,9 @@ export default function Header() {
         <header className={styles.header}>
             <div className={styles.logo}>
                 {!session ? (
-                    <Link href='/'>AI Job Advisor</Link>
+                    <Link href="/">AI Job Advisor</Link>
                 ) : (
-                    <Link href='/job/allJobs'>AI Job Advisor</Link>
+                    <Link href="/job/allJobs">AI Job Advisor</Link>
                 )}
             </div>
             <nav className={styles.navigation}>
@@ -58,7 +58,9 @@ export default function Header() {
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
-                                    onClick={() => router.push("/job/recommendedJobs")}
+                                    onClick={() =>
+                                        router.push("/job/recommendedJobs")
+                                    }
                                 >
                                     Recommended Jobs
                                 </button>
@@ -66,9 +68,17 @@ export default function Header() {
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
-                                    onClick={() => router.push("/job/generateCv")}
+                                    onClick={() => router.push("/uploadjob")}
                                 >
-                                    Generate CV
+                                    Upload Job
+                                </button>
+                            </li>
+                            <li className={styles.navItem}>
+                                <button
+                                    className={styles.customButton}
+                                    onClick={() => router.push("/cover_letter")}
+                                >
+                                    Generate Cover Letter
                                 </button>
                             </li>
                             <li className={styles.navItem}>

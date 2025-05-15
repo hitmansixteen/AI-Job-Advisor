@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
+import SimilarityScore from "./SimilarityScore";
 
 const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -25,7 +26,7 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
         });
 
         if (!response.ok) {
-          throw new Error("Failed to fetch skill gap analysis.");
+          console.error("Failed to fetch skill gap analysis.");
         }
 
         const data = await response.json();

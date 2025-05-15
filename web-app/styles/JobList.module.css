@@ -2,7 +2,7 @@
 .grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 1.5rem;
+    gap: 2rem;
     padding: 3rem;
   }
   
@@ -14,7 +14,7 @@
   
   @media (min-width: 1024px) {
     .grid {
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(3, 2fr);
     }
   }
   
@@ -54,7 +54,7 @@
   }
   
   .cardSkills {
-    color: #2563eb;
+    color: #14357b;
     font-size: 0.875rem;
     margin-bottom: 1rem;
   }
@@ -68,18 +68,20 @@
   
   .buttons {
     display: flex;
-    gap: 0.75rem;
+    gap: 0.5rem;
     margin-top: auto;
+    margin-left: 1rem;
+    margin-right: 1rem;
   }
   
   .customButton {
-    background-color: #283246; /* Blue-600 */
-    color: #ffffff; /* White */
-    border: none;
-    padding: 0.75rem 1.5rem;
+    background-color: #3d475a;
+    color: #cdcdcd; 
+    border: solid #304050;
+    padding: 0.5rem 1rem;
     border-radius: 0.5rem;
     font-size: 0.875rem;
-    font-weight: 500;
+    font-weight: 600;
     cursor: pointer;
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
   }
@@ -109,13 +111,12 @@
   }
   
   .modalContent {
-    padding: 2rem;
-    background-color: #ffffff;
+    padding: 0.1rem;
     border-radius: 0.75rem;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     max-width: 500px;
-    width: 90%;
-    animation: fadeIn 0.3s ease-in-out;
+    height: 95%;
+    width: 100%;
   }
   
   @keyframes fadeIn {

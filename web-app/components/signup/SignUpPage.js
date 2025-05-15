@@ -47,12 +47,22 @@ const SignUpPage = () => {
     });
   };
 
+  const removeEducation = (index) => {
+    const updatedEducation = formData.education.filter((_, i) => i !== index);
+    setFormData({ ...formData, education: updatedEducation });
+  };
+
   const addProject = (e) => {
     e.preventDefault();
     setFormData({
       ...formData,
       projects: [...formData.projects, { title: "", description: "", technologies: "" }],
     });
+  };
+
+  const removeProject = (index) => {
+    const updatedProjects = formData.projects.filter((_, i) => i !== index);
+    setFormData({ ...formData, projects: updatedProjects });
   };
 
   const addExperience = (e) => {
@@ -63,6 +73,11 @@ const SignUpPage = () => {
     });
   };
 
+  const removeExperience = (index) => {
+    const updatedExperience = formData.experience.filter((_, i) => i !== index);
+    setFormData({ ...formData, experience: updatedExperience });
+  };
+
   const addPublication = (e) => {
     e.preventDefault();
     setFormData({
@@ -71,14 +86,29 @@ const SignUpPage = () => {
     });
   };
 
+  const removePublication = (index) => {
+    const updatedPublications = formData.publications.filter((_, i) => i !== index);
+    setFormData({ ...formData, publications: updatedPublications });
+  };
+
   const addSkill = (e) => {
     e.preventDefault();
     setFormData({ ...formData, skills: [...formData.skills, ""] });
   };
 
+  const removeSkill = (index) => {
+    const updatedSkills = formData.skills.filter((_, i) => i !== index);
+    setFormData({ ...formData, skills: updatedSkills });
+  };
+
   const addCertification = (e) => {
     e.preventDefault();
     setFormData({ ...formData, certifications: [...formData.certifications, ""] });
+  };
+
+  const removeCertification = (index) => {
+    const updatedCertifications = formData.certifications.filter((_, i) => i !== index);
+    setFormData({ ...formData, certifications: updatedCertifications });
   };
 
   const handleSubmit = async (e) => {
@@ -188,9 +218,16 @@ const SignUpPage = () => {
               <input className={styles.input} type="text" placeholder="Institute" value={edu.institute} onChange={(e) => handleChange(e, index, "institute", "education")} required />
               <input className={styles.input} type="date" value={edu.startDate} onChange={(e) => handleChange(e, index, "startDate", "education")} required />
               <input className={styles.input} type="date" value={edu.endDate} onChange={(e) => handleChange(e, index, "endDate", "education")} required />
+              {formData.education.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removeEducation(index)}>
+                  Remove Education
+                </button>
+              )}
             </div>
           ))}
-          <Button onClick={addEducation} text="Add Education" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addEducation}>
+            Add Education
+          </button>
         </div>
 
         {/* Experience */}
@@ -203,9 +240,16 @@ const SignUpPage = () => {
               <input className={styles.input} type="date" value={exp.startDate} onChange={(e) => handleChange(e, index, "startDate", "experience")} />
               <input className={styles.input} type="date" value={exp.endDate} onChange={(e) => handleChange(e, index, "endDate", "experience")} />
               <textarea className={styles.textarea} placeholder="Details" value={exp.details} onChange={(e) => handleChange(e, index, "details", "experience")} />
+              {formData.experience.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removeExperience(index)}>
+                  Remove Experience
+                </button>
+              )}
             </div>
           ))}
-          <Button onClick={addExperience} text="Add Experience" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addExperience}>
+            Add Experience
+          </button>
         </div>
 
         {/* Publications */}
@@ -219,9 +263,16 @@ const SignUpPage = () => {
                 onChange={(e) => handleChange(e, index, "link", "publications")} />
               <input className={styles.input} type="date" placeholder="Publish Date" value={pub.date} 
                 onChange={(e) => handleChange(e, index, "date", "publications")} />
+              {formData.publications.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removePublication(index)}>
+                  Remove Publication
+                </button>
+              )}
             </div>
           ))}
-          <Button onClick={addPublication} text="Add Publication" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addPublication}>
+            Add Publication
+          </button>
         </div>
 
         {/* Projects */}
@@ -235,29 +286,55 @@ const SignUpPage = () => {
                 onChange={(e) => handleChange(e, index, "description", "projects")} />
               <input className={styles.input} type="text" placeholder="Technologies Used" value={project.technologies}
                 onChange={(e) => handleChange(e, index, "technologies", "projects")} />
+              {formData.projects.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removeProject(index)}>
+                  Remove Project
+                </button>
+              )}
             </div>
           ))}
-          <Button onClick={addProject} text="Add Project" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addProject}>
+            Add Project
+          </button>
         </div>
 
         {/* Skills */}
         <div className={styles.formGroup}>
           <label className={styles.label}>Skills:</label>
           {formData.skills.map((skill, index) => (
-            <input className={styles.input} key={index} type="text" value={skill} onChange={(e) => handleChange(e, index, "skills", "skills")} />
+            <div className={styles.inputGroup} key={index}>
+              <input className={styles.input} type="text" value={skill} onChange={(e) => handleChange(e, index, "skills", "skills")} />
+              {formData.skills.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removeSkill(index)}>
+                  Remove Skill
+                </button>
+              )}
+            </div>
           ))}
-          <Button onClick={addSkill} text="Add Skill" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addSkill}>
+            Add Skill
+          </button>
         </div>
 
         {/* Certifications */}
         <div className={styles.formGroup}>
           <label className={styles.label}>Certifications:</label>
           {formData.certifications.map((cert, index) => (
-            <input className={styles.input} key={index} type="text" value={cert} onChange={(e) => handleChange(e, index, "certifications", "certifications")} />
+            <div className={styles.inputGroup} key={index}>
+              <input className={styles.input} type="text" value={cert} onChange={(e) => handleChange(e, index, "certifications", "certifications")} />
+              {formData.certifications.length > 1 && (
+                <button type="button" className={styles.removeButton} onClick={() => removeCertification(index)}>
+                  Remove Certification
+                </button>
+              )}
+            </div>
           ))}
-          <Button onClick={addCertification} text="Add Certification" bgColor="bg-buttons" hoverColor="hover:bg-gray-600" />
+          <button type="button" className={styles.addButton} onClick={addCertification}>
+            Add Certification
+          </button>
         </div>
 
+        {/* Password */}
         <div className={styles.formGroup}>
           <label className={styles.label}>Set Password:</label>
           <input className={styles.input} type="password" value={formData.password} onChange={(e) => handleChange(e, null, "password", "text")} />

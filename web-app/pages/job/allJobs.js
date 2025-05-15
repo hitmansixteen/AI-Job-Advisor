@@ -5,6 +5,9 @@ import JobList from "@/components/JobList";
 import styles from "@/styles/AllJobs.module.css";
 
 const AllJobs = ({ jobs }) => {
+  if (!jobs || jobs.length === 0) {
+          return <div className={styles.noJobs}>No jobs available</div>;
+  }
   const { data: session, status } = useSession();
   const router = useRouter();
   
@@ -20,7 +23,7 @@ const AllJobs = ({ jobs }) => {
   // Filter jobs when the search term changes
   useEffect(() => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
-    const filtered = jobs.filter((job) => {
+    const filtered = jobs?.filter((job) => {
       const title = job.title?.toLowerCase() || "";
       const description = job.description?.toLowerCase() || "";
       const company = job.company?.toLowerCase() || "";

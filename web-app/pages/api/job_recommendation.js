@@ -3,10 +3,19 @@ import path from "path";
 import connectDB from "../../lib/mongoose";
 import Job from "../../models/jobs";
 
+// Create a simple in-memory cache using a Map
+const cache = new Map();
+
 export default async function handler(req, res) {
   try {
     const { email } = req.query;
     console.log("Email:", email);
+
+    // Check if the result is already in the cache
+    if (cache.has(email)) {
+      console.log("Cache hit for email:", email);
+      return res.status(200).json(cache.get(email));
+    }
 
     // Get Python script path
     const scriptPath = path.join(process.cwd(), "python_backend", "faiss_retrieval.py");
@@ -34,6 +43,8 @@ export default async function handler(req, res) {
           const recommendedJobs = JSON.parse(responseData); // Parse FAISS output
 
           if (!Array.isArray(recommendedJobs) || recommendedJobs.length === 0) {
+            // Cache the empty result
+            cache.set(email, []);
             return res.status(200).json([]);
           }
 
@@ -60,6 +71,9 @@ export default async function handler(req, res) {
           });
 
           console.log("Enriched Jobs:", enrichedJobs);
+
+          // Cache the result
+          cache.set(email, enrichedJobs);
 
           return res.status(200).json(enrichedJobs);
         } catch (error) {
