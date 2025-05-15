@@ -19,7 +19,7 @@ const LandingPage = ({ featuredJobs }) => {
         </div>
       </main>
       <footer className={styles.footer}>
-        <p>© 2024 AI Job Advisor. All rights reserved.</p>
+        <p>© 2025 AI Job Advisor. All rights reserved.</p>
       </footer>
     </div>
   );
