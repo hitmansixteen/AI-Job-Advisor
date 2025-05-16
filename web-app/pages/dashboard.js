@@ -213,14 +213,14 @@ export default function UserDashboard() {
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th className="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
-                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title</th>
+                                            <th className="px-6 py-5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Summary</th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {cvs.map((cv) => (
                                             <tr key={cv._id}>
-                                                <td className="px-6 py-4 whitespace-nowrap">
+                                                <td className="px-6 py-4 whitespace-nowrap overflow-x-auto">
                                                     <a 
                                                         onClick={() => handleEditCV(cv.job_id)}
                                                         className="text-blue-600 hover:text-blue-800 hover:underline cursor-pointer"
@@ -228,14 +228,8 @@ export default function UserDashboard() {
                                                         {cv.title}
                                                     </a>
                                                 </td>
-                                                <td className="px-6 py-4 whitespace-nowrap">
-                                                    <button
-                                                        onClick={() => handleDeleteCV(cv.job_id)}
-                                                        className="flex items-center text-red-600 hover:text-red-800"
-                                                    >
-                                                        <FaTrash className="mr-1" />
-                                                        Delete
-                                                    </button>
+                                                <td className="px-6 py-4 overflow-y-auto">
+                                                    {cv.summary}
                                                 </td>
                                             </tr>
                                         ))}
