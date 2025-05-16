@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "@/styles/JobList.module.css";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import SimilarityScore from "@/components/SimilarityScore";
 import SkillGapAnalysis from "@/components/SkillGapAnalysis";
+import Button from "@/components/utils/Button";
 
 export default function UploadJob() {
     const [selectedFile, setSelectedFile] = useState(null);
@@ -12,48 +13,73 @@ export default function UploadJob() {
     const [jobDataForSimilarity, setJobDataForSimilarity] = useState("");
     const [skillGapTab, setSkillGapTab] = useState(false);
     const [skillGapJob, setSkillGapJob] = useState(null);
+    const [parsedJob, setParsedJob] = useState(null);
 
     const router = useRouter();
     const { data: session, status } = useSession();
+
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push("/");
+        }
+    }, [status, router]);
+
 
     const handleUpload = () => {
         if (!selectedFile) {
             alert("Please select a file first!");
             return;
         }
-        console.log("Uploading file:", selectedFile);
     };
 
     const handleFileChange = async (event) => {
-        const file = event.target.files[0];
-        setSelectedFile(file);
+    const file = event.target.files[0];
+    setSelectedFile(file);
 
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = async (e) => {
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            try {
+                const json = JSON.parse(e.target.result);
+                setJobData(json);
+
+                const response = await fetch("/api/parse_job", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify({ rawJob: json }),
+                });
+
+                // First get the response text
+                const responseText = await response.text();
+                
+                // Try to parse it as JSON
+                let result;
                 try {
-                    const json = JSON.parse(e.target.result);
-                    setJobData(json);
+                    result = JSON.parse(responseText);
+                    } catch (parseError) {
+                        console.error("Failed to parse response:", responseText);
+                        throw new Error("Invalid server response");
+                    }
 
-                    const res = await fetch("/api/parse_job", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify({ rawJob: json }),
-                    });
-
-                    const result = await res.json();
-
-                    if (res.ok) {
-                        console.log("Job parsed and saved:", result.job);
+                    // Check if response was successful
+                    if (response.ok) {
+                        console.log("Full API response:", result);
+                        
+                        if (result.job) {
+                            console.log("Job parsed and saved:", result.job);
+                            setParsedJob(result.job);
+                        } else {
+                            console.warn("Job data missing in response");
+                            setParsedJob(null);
+                        }
                     } else {
-                        console.error("Failed to parse job:", result.error);
-                        alert("Error parsing job: " + result.error);
+                        throw new Error(result.error || result.message || "Failed to parse job");
                     }
                 } catch (error) {
-                    alert("Error reading JSON file");
-                    console.error("File read error:", error);
+                    console.error("Error processing job:", error);
+                    alert("Error: " + error.message);
                 }
             };
             reader.readAsText(file);
@@ -224,51 +250,48 @@ export default function UploadJob() {
                         <div className={styles.buttons + " mt-8 pt-6 border-t border-gray-200"}>
                             {status === "authenticated" && (
                                 <>
-                                    <button
-                                        className={styles.customButton}
-                                        onClick={() =>
-                                            router.push({
-                                                pathname: "/customized_cv",
-                                                query: {
-                                                    job: JSON.stringify(formattedJob),
-                                                },
-                                            })
+                                    <Button
+                                        text="Customize Resume"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
+                                        onClick={() => {
+                                            const jobQuery = encodeURIComponent(JSON.stringify(parsedJob));
+                                            window.open(`/customized_cv?job=${jobQuery}`, '_blank');
+                                            }
                                         }
-                                    >
-                                        Customize CV
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
+                                    />
+                                    <Button
+                                        text="Customize Cover Letter"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
+                                        onClick={() => {
+                                        const jobQuery = encodeURIComponent(JSON.stringify(parsedJob));
+                                        window.open(`/cover_letter?job=${jobQuery}`, '_blank');
+                                        }}
+                                    />
+                                    <Button
+                                        text="Similarity Score"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() =>
-                                            router.push({
-                                                pathname: "/cover_letter",
-                                                query: {
-                                                    job: JSON.stringify(formattedJob),
-                                                },
-                                            })
-                                        }
-                                    >
-                                        Customize Cover Letter
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
-                                        onClick={() =>
-                                            similarity_score_clicked(
-                                                formattedJob.description +
-                                                    " Required Skills: " +
-                                                    (formattedJob.requiredSkills.join(", ") || "")
-                                            )
+                                        similarity_score_clicked(
+                                            parsedJob?.details +
+                                            " Required Skills: " +
+                                            parsedJob?.requiredSkills.join(", ")
+                                        )
                                         }
                                         disabled={similarityTab}
-                                    >
-                                        Generate Similarity Score & Ranking
-                                    </button>
-                                    <button
-                                        className={styles.customButton}
+                                    />
+                                    <Button
+                                        text="Skill Gap Analysis"
+                                        bgColor="bg-buttons"
+                                        hoverColor="hover:bg-gray-600"
+                                        sizeY="2"
                                         onClick={() => skill_gap_analysis(formattedJob)}
-                                    >
-                                        Skill Gap Analysis
-                                    </button>
+                                    />
                                 </>
                             )}
                         </div>

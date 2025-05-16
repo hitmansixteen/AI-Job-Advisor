@@ -40,7 +40,7 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
     };
 
     fetchSkillGap();
-  }, [job, session]);
+  }, [job]);
 
   if (loading) {
     return <p>Loading analysis...</p>;
@@ -64,9 +64,17 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
                 <div>
                   <h4>Recommended Courses</h4>
                   <ul style={styles.list}>
-                    {item.courses.map((course, idx) => (
-                      <li key={idx} style={styles.listItem}>{course}</li>
-                    ))}
+                    {item.courses.map((course, idx) => {
+                      const matchedUrl = course.match(/\[?(https?:\/\/[^\s\]]+)\]?/i)?.[1] || "#";
+
+                      return (
+                        <li key={idx} style={styles.listItem}>
+                          <a href={matchedUrl} target="_blank" rel="noopener noreferrer">
+                            {course}
+                          </a>
+                        </li>
+                      );
+                    })}                                 
                   </ul>
                 </div>
               )}
@@ -102,56 +110,66 @@ const SkillGapAnalysis = ({ job, setSkillGapTab }) => {
 
 const styles = {
   container: {
-    background: "#fff",
-    padding: "20px",
-    borderRadius: "8px",
-    maxWidth: "600px",
-    maxHeight: "80vh", // Set a max height for the container to prevent overflow
-    overflowY: "auto",  // Enable scrolling if the content overflows
+    background: "#ffffff",
+    padding: "24px",
+    borderRadius: "12px",
+    maxWidth: "700px",
+    maxHeight: "95vh",
+    overflowY: "auto",
     margin: "0 auto",
-    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+    boxShadow: "0 8px 24px rgba(0, 0, 0, 0.12)",
+    fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
   },
   closeButton: {
-    background: "#FF6347",
-    color: "#fff",
+    background: "#e53e3e",
+    color: "#ffffff",
     border: "none",
-    padding: "8px 16px",
-    borderRadius: "4px",
+    padding: "10px 20px",
+    borderRadius: "6px",
     cursor: "pointer",
-    fontSize: "16px",
-    marginBottom: "20px",
+    fontSize: "15px",
+    fontWeight: "500",
+    transition: "background 0.3s",
+    marginBottom: "24px",
   },
   title: {
-    fontSize: "24px",
-    fontWeight: "bold",
-    color: "#333",
-    marginBottom: "20px",
+    fontSize: "26px",
+    fontWeight: "700",
+    color: "#222",
+    marginBottom: "24px",
+    borderBottom: "2px solid #eee",
+    paddingBottom: "8px",
   },
   resultContainer: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
-    maxHeight: "70vh",  // Adjust based on the available space
-    overflowY: "auto",  // Allow scrolling if content overflows
+    gap: "24px",
+    maxHeight: "70vh",
+    overflowY: "auto",
+    paddingRight: "8px",
+    scrollBehavior: "smooth",
   },
   card: {
-    background: "#f9f9f9",
-    padding: "15px",
-    borderRadius: "8px",
-    boxShadow: "0 2px 8px rgba(0, 0, 0, 0.1)",
+    background: "#f0f4f8",
+    padding: "20px",
+    borderRadius: "10px",
+    boxShadow: "0 4px 12px rgba(0, 0, 0, 0.08)",
+    transition: "transform 0.2s",
   },
   list: {
     paddingLeft: "20px",
     listStyleType: "disc",
-    maxHeight: "300px", // Optional: Limit the height of lists
-    overflowY: "auto",  // Enable vertical scrolling if the content overflows
+    marginTop: "8px",
+    maxHeight: "200px",
+    overflowY: "auto",
   },
   listItem: {
     fontSize: "16px",
-    color: "#555",
-    marginBottom: "8px",
-    wordWrap: "break-word",  // Break long words to prevent overflow
+    color: "#333",
+    marginBottom: "6px",
+    wordBreak: "break-word",
   },
 };
+
 
 export default SkillGapAnalysis;

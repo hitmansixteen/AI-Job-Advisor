@@ -140,24 +140,21 @@ const JobList = ({ jobs }) => {
                             bgColor="bg-buttons"
                             hoverColor="hover:bg-gray-600"
                             sizeY="2"
-                            onClick={() =>
-                            router.push({
-                                pathname: "/customized_cv",
-                                query: { job: JSON.stringify(selectedJob) },
-                            })
+                            onClick={() => {
+                                const jobQuery = encodeURIComponent(JSON.stringify(selectedJob));
+                                window.open(`/customized_cv?job=${jobQuery}`, '_blank');
+                                }
                             }
                         />
-                        <Button
+                         <Button
                             text="Customize Cover Letter"
                             bgColor="bg-buttons"
                             hoverColor="hover:bg-gray-600"
                             sizeY="2"
-                            onClick={() =>
-                            router.push({
-                                pathname: "/cover_letter",
-                                query: { job: JSON.stringify(selectedJob) },
-                            })
-                            }
+                            onClick={() => {
+                            const jobQuery = encodeURIComponent(JSON.stringify(selectedJob));
+                            window.open(`/cover_letter?job=${jobQuery}`, '_blank');
+                            }}
                         />
                         <Button
                             text="Similarity Score"

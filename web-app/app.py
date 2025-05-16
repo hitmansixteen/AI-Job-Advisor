@@ -33,8 +33,14 @@ def calculate_similarity(cv_location, job):
     cv = extract_pdf_contents(cv_location)
     lda_score = calculate_similarity_using_lda(cv, job)
     word2vec = calculate_similarity_using_word2vec(cv, job)
-    similarity = 0.4 * lda_score + 0.6 * word2vec
+    similarity = 0.2 * lda_score + 0.8 * word2vec
     return cv, similarity
+
+def profile_similarity(profile, job):
+    lda_score = calculate_similarity_using_lda(profile, job)
+    word2vec = calculate_similarity_using_word2vec(profile, job)
+    similarity = 0.2 * lda_score + 0.8 * word2vec
+    return similarity
 
 @app.route('/api/calculate_similarity', methods=['POST'])
 def calculate_similarity_endpoint():
@@ -43,7 +49,6 @@ def calculate_similarity_endpoint():
     
     file = request.files['cv_file']
     job = request.form.get('job_description')
-    print (job)
 
     if not file or not job:
         return jsonify({"error": "Both cv_file and job_description are required"}), 400
@@ -59,6 +64,24 @@ def calculate_similarity_endpoint():
     os.remove(file_path)
 
     return jsonify({"similarity_score": similarity, "cv": cv})
+
+@app.route('/api/profile_similarity', methods=['POST'])
+def profile_similarity_endpoint():
+    profile = request.form.get('profile')
+    job_description = request.form.get('job_description')
+    
+    if not profile or not job_description:
+        return jsonify({
+            "error": "Missing required fields (profile or job_description)",
+            "status": "error"
+        }), 400
+    
+    similarity = profile_similarity(profile, job_description)
+    
+    return jsonify({
+        "similarity_score": similarity,
+        "status": "success"
+    })
 
 @app.route('/api/calculate_rank', methods=['POST'])
 def calculate_rank():

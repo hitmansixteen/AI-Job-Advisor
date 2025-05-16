@@ -13,7 +13,7 @@ export default function Header() {
                 {!session ? (
                     <Link href="/">AI Job Advisor</Link>
                 ) : (
-                    <Link href="/job/allJobs">AI Job Advisor</Link>
+                    <Link href="/dashboard">AI Job Advisor</Link>
                 )}
             </div>
             <nav className={styles.navigation}>
@@ -39,6 +39,14 @@ export default function Header() {
                         </>
                     ) : (
                         <>
+                            <li className={styles.navItem}>
+                                <button
+                                    className={styles.customButton}
+                                    onClick={() => router.push("/dashboard")}
+                                >
+                                    Dashboard
+                                </button>
+                            </li>
                             <li className={styles.navItem}>
                                 <button
                                     className={styles.customButton}
