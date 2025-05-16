@@ -186,9 +186,7 @@ const observer = new MutationObserver((mutations) => {
                 const link = document.createElement("a");
                 link.href = url;
                 // Use job_id or timestamp for unique filename
-                const fileName = `job_${
-                    jobData.application_details.job_id || Date.now()
-                }.json`;
+                const fileName = `job_${jobData.job_title + Date.now()}.json`;
                 link.download = fileName;
                 document.body.appendChild(link);
                 link.click();
@@ -200,11 +198,11 @@ const observer = new MutationObserver((mutations) => {
                 console.log(`Downloaded JSON file: ${fileName}`);
 
                 // Open localhost:3000 in a new tab
-                window.open("http://localhost:3000", "_blank");
+                // window.open("http://localhost:3000", "_blank");
             } catch (error) {
                 console.error("Error downloading JSON file:", error);
                 // Optionally still open the new tab
-                window.open("http://localhost:3000", "_blank");
+                // window.open("http://localhost:3000", "_blank");
             }
         });
 
