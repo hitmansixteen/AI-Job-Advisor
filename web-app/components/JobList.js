@@ -64,7 +64,7 @@ const JobList = ({ jobs }) => {
 
             {/* Modal for Full Job Details */}
             {selectedJob && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 overflow-y-auto py-16">
+            <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-start z-50 py-20 overflow-y-auto">
                 <div className="relative bg-white rounded-lg shadow-xl p-6 w-full max-w-2xl max-h-[85vh] max-w-[100vh] overflow-y-auto">
                 <div className="overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-100 pr-2">
                     {/* Close Button (unchanged) */}
